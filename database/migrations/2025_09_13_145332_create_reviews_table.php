@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
             $table->foreignId('product_id')
                 ->constrained('products'); // References products.product_id
             $table->foreignId('user_id')

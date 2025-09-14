@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductVarientController;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\AuthAdminController;
 use App\Http\Controllers\ClothController;
@@ -42,6 +43,16 @@ Route::prefix('admin')->group((function () {
         Route::post('products', [ProductController::class, 'store']);
         Route::put('products/{product}', [ProductController::class, 'update']);
         Route::delete('products/{product}', [ProductController::class, 'destroy']);
+    });
+    // Product Varients Creation
+    Route::get('productVarients', [ProductVarientController::class, 'index']);
+    Route::get('productVarients/{productVarient}', [ProductVarientController::class, 'show']);
+
+    // Protected routes
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('productVarients', [ProductVarientController::class, 'store']);
+        Route::put('productVarients/{productVarient}', [ProductVarientController::class, 'update']);
+        Route::delete('productVarients/{productVarient}', [ProductVarientController::class, 'destroy']);
     });
 }));
 Route::prefix('admin')->group((function () {

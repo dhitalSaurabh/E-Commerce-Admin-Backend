@@ -48,68 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-
-// async function fetchClothes() {
-//     const auth_token = localStorage.getItem('auth_token');
-//     try {
-//         const response = await fetch("http://127.0.0.1:8000/api/admin/cloths", {
-//             method: 'GET',
-//             headers: {
-//                 'Accept': 'application/json',
-//                 'Authorization': `Bearer ${auth_token}`,
-//             }
-//         });
-
-//         const data = await response.json();
-//         console.log('Clothes List:', data);
-
-//         // TODO: Render data in a table or grid
-//     } catch (err) {
-//         console.error('Failed to fetch clothes:', err);
-//     }
-// }
-// document.addEventListener('DOMContentLoaded', fetchClothes);
-
-
-// document.addEventListener('DOMContentLoaded', () => {
-//     const container = document.getElementById('clothesGrid');
-
-//     fetch('http://127.0.0.1:8000/api/clothes',{
-//         method: 'GET',
-//         headers:
-//         {
-//             "Accept": "application/json",
-//             "Content-Type": "application/json",
-//         }
-//     })
-//         .then(res => res.json())
-//         .then(data => {
-//             container.innerHTML = '';
-
-//             if (data.length === 0) {
-//                 container.innerHTML = '<p>No clothes available.</p>';
-//                 return;
-//             }
-
-//             data.forEach(item => {
-//                 const card = document.createElement('div');
-//                 card.className = 'border p-4 rounded shadow';
-
-//                 card.innerHTML = `
-//                     <img src="${item.image_url}" alt="${item.name}" class="w-full h-48 object-cover rounded">
-//                     <h2 class="text-xl font-bold mt-2">${item.name}</h2>
-//                     <p>${item.description}</p>
-//                     <p class="text-green-600 font-semibold mt-1">$${item.price}</p>
-//                 `;
-
-//                 container.appendChild(card);
-//             });
-//         })
-//         .catch(error => {
-//             console.error('Error fetching clothes:', error);
-//             container.innerHTML = '<p>Failed to load clothes.</p>';
-//         });
-// });
 // Delete clothes
 async function deleteClothingItem(id) {
     const auth_token = localStorage.getItem('auth_token');

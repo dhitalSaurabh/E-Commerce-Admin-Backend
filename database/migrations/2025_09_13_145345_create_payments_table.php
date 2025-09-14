@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
             $table->foreignId('order_id')
                   ->constrained('orders')
                   ->onDelete('cascade'); // ON DELETE CASCADE

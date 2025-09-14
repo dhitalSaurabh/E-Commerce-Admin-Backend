@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProductVarient;
-use App\Http\Requests\StoreProductVarientRequest;
-use App\Http\Requests\UpdateProductVarientRequest;
+use Illuminate\Http\Request;
 
 class ProductVarientController extends Controller
 {
@@ -13,15 +12,28 @@ class ProductVarientController extends Controller
      */
     public function index()
     {
-        //
+        $productVarient = ProductVarient::all();
+        return response()->json($productVarient);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductVarientRequest $request)
+    public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            // 'user_id' => 'required|exists:users,id',
+            'product_id' => 'required|exists:products,id',
+            'size' => 'nullable|string|max:50',
+            'color' => 'nullable|string|max:50',
+            'material' => 'nullable|string|max:100',
+            'additional_price' => 'nullable|numeric',
+            'sku' => 'nullable|string|max:100|unique:product_varients,sku',
+        ]);
+
+        $productVarient = $request->user()->productVarient()->create($validated);
+
+        return response()->json($productVarient, 201);
     }
 
     /**
@@ -29,15 +41,30 @@ class ProductVarientController extends Controller
      */
     public function show(ProductVarient $productVarient)
     {
-        //
+         $productVarient = ProductVarient::findOrFail($id);
+        return response()->json($productVarient);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductVarientRequest $request, ProductVarient $productVarient)
+    public function update(Request $request, ProductVarient $productVarient)
     {
-        //
+        $productVarient = ProductVarient::findOrFail($id);
+
+        $validated = $request->validate([
+            // 'user_id' => 'sometimes|required|exists:users,id',
+            'product_id' => 'sometimes|required|exists:products,id',
+            'size' => 'nullable|string|max:50',
+            'color' => 'nullable|string|max:50',
+            'material' => 'nullable|string|max:100',
+            'additional_price' => 'nullable|numeric',
+            'sku' => 'nullable|string|max:100|unique:product_varients,sku,' . $id,
+        ]);
+
+        $productVarient->update($validated);
+
+        return response()->json(data: $productVarient);
     }
 
     /**
@@ -45,6 +72,9 @@ class ProductVarientController extends Controller
      */
     public function destroy(ProductVarient $productVarient)
     {
-        //
+         $productVarient = ProductVarient::findOrFail($id);
+        $productVarient->delete();
+
+        return response()->json(['message' => 'Product varient deleted successfully']);
     }
 }

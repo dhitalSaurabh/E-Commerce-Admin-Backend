@@ -9,7 +9,7 @@ class product extends Model
 {
     /** @use HasFactory<\Database\Factories\ProductFactory> */
     use HasFactory;
-    
+
     protected $fillable = [
         'user_id',
         'category_id',
@@ -29,5 +29,9 @@ class product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+    public function productVarient()
+    {
+        return $this->hasMany(Product::class);
     }
 }

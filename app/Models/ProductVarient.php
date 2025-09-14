@@ -9,4 +9,24 @@ class ProductVarient extends Model
 {
     /** @use HasFactory<\Database\Factories\ProductVarientFactory> */
     use HasFactory;
+    protected $fillable = [
+        // 'user_id',
+        'product_id',
+        'size',
+        'color',
+        'material',
+        'additional_price',
+        'sku',
+    ];
+
+    // Relationships
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }
