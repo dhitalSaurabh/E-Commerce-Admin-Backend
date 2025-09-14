@@ -32,6 +32,9 @@ Route::get('/products/shoes', function () {
 Route::get('/products/bags', function () {
     return view('products.bags');
 });
+Route::get('/products/product', function () {
+    return view('products.product');
+});
 Route::get('/categories/category', function () {
     return view('categories.category');
 });

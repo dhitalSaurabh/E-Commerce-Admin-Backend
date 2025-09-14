@@ -3,25 +3,45 @@
 namespace App\Http\Controllers;
 
 use App\Models\product;
-use App\Http\Requests\StoreproductRequest;
-use App\Http\Requests\UpdateproductRequest;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    // GET /products
     public function index()
     {
-        //
+        return response()->json([
+            'message' => 'Product list retrieved',
+            'data' => Product::with(['category', 'user'])->get(),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreproductRequest $request)
+    public function store(Request $request)
     {
-        //
+        $fields = $request->validate([
+            'name' => 'required|string|max:200',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'brand' => 'nullable|string|max:100',
+            'sku' => 'nullable|string|max:100|unique:products,sku',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
+        $product = Product::create([
+            ...$fields,
+            'user_id' => $request->user()->id, // requires auth middleware
+        ]);
+
+        return response()->json([
+            'message' => 'Product created successfully',
+            'data' => $product,
+        ], 201);
     }
 
     /**
@@ -29,15 +49,32 @@ class ProductController extends Controller
      */
     public function show(product $product)
     {
-        //
+        return response()->json([
+            'message' => 'Product retrieved',
+            'data' => $product->load(['category', 'user']),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateproductRequest $request, product $product)
+    public function update(Request $request, product $product)
     {
-        //
+        $fields = $request->validate([
+            'name' => 'nullable|string|max:200',
+            'description' => 'nullable|string',
+            'price' => 'nullable|numeric|min:0',
+            'brand' => 'nullable|string|max:100',
+            'sku' => 'nullable|string|max:100|unique:products,sku,' . $product->id,
+            'category_id' => 'nullable|exists:categories,id',
+        ]);
+
+        $product->update($fields);
+
+        return response()->json([
+            'message' => 'Product updated successfully',
+            'data' => $product,
+        ]);
     }
 
     /**
@@ -45,6 +82,10 @@ class ProductController extends Controller
      */
     public function destroy(product $product)
     {
-        //
+        $product->delete();
+
+        return response()->json([
+            'message' => 'Product deleted successfully',
+        ]);
     }
 }

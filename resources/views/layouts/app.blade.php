@@ -19,7 +19,8 @@
             <a href="{{ url('/dashboard') }}" class="block p-2 rounded hover:bg-gray-700">Dashboard</a>
             {{-- <strong class="block mb-2">Category</strong> --}}
             <a href="{{ url('/categories/category') }}" class="block p-2 rounded hover:bg-gray-700">Category</a>
-            <strong class="block mb-2">Products</strong>
+            {{-- <strong class="block mb-2">Products</strong> --}}
+            <a href="{{ url('/products/product') }}" class="block p-2 rounded hover:bg-gray-700">Product</a>
             <a href="{{ url('/products/clothes') }}" class="block p-2 rounded hover:bg-gray-700">Clothes</a>
             <a href="{{ url('/products/shoes') }}" class="block p-2 rounded hover:bg-gray-700">Shoes</a>
             <a href="{{ url('/products/bags') }}" class="block p-2 rounded hover:bg-gray-700">Bags</a>
