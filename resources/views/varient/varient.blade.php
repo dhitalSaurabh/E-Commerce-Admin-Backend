@@ -83,8 +83,8 @@
     <div class="container mt-4">
         <!-- Top Bar with Title and Add Button -->
         <div class="top-bar">
-            <h1>All Products</h1>
-            <button class="btn-add" onclick="openDialog()">+ Add Products</button>
+            <h1>All Product Variant</h1>
+            <button class="btn-add" onclick="openDialog()">+ Add Product Variants</button>
         </div>
 
         {{-- Clothes table or grid would go here --}}
@@ -98,17 +98,17 @@
     <div class="dialog-overlay" id="addClothesDialog">
         <div class="dialog-box">
             <button class="close-dialog" onclick="closeDialog()">×</button>
-            <h2>Add Products</h2>
-            <x-product-form.post-products />
+            <h2>Add Varients</h2>
+            <x-varient-form.post-varients />
         </div>
     </div>
-    <x-product-form.update-products />
+    <x-varient-form.update-varients />
     <!-- Clothes grid -->
     <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <!-- JavaScript will populate clothes here -->
     </div>
-    <script src="{{ asset('js/products-api.js')}}"></script>
-    <script src="{{ asset('js/dropdown-categories.js')}}"></script>
+    {{-- <script src="{{ asset('js/products-api.js')}}"></script> --}}
+    {{-- <script src="{{ asset('js/dropdown-categories.js')}}"></script> --}}
     {{-- <script src="{{ asset('js/load-clothes.js')}}"></script> --}}
 
     <script>

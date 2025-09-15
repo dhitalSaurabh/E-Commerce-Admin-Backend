@@ -18,6 +18,7 @@ class product extends Model
         'price',
         'brand',
         'sku',
+        'image',
     ];
 
     // Relationships
@@ -32,6 +33,6 @@ class product extends Model
     }
     public function productVarient()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(ProductVarient::class);
     }
 }

@@ -19,8 +19,12 @@
             <a href="{{ url('/dashboard') }}" class="block p-2 rounded hover:bg-gray-700">Dashboard</a>
             {{-- <strong class="block mb-2">Category</strong> --}}
             <a href="{{ url('/categories/category') }}" class="block p-2 rounded hover:bg-gray-700">Category</a>
-            {{-- <strong class="block mb-2">Products</strong> --}}
+            <strong class="block mb-2">Products</strong>
             <a href="{{ url('/products/product') }}" class="block p-2 rounded hover:bg-gray-700">Product</a>
+            <a href="{{ url('/products/varient') }}" class="block p-2 rounded hover:bg-gray-700">Variant</a>
+            <strong class="block mt-4 mb-2">Inventory</strong>
+            <a href="{{ url('/stocks') }}" class="block p-2 rounded hover:bg-gray-700">Stock Details</a>
+
             <a href="{{ url('/products/clothes') }}" class="block p-2 rounded hover:bg-gray-700">Clothes</a>
             <a href="{{ url('/products/shoes') }}" class="block p-2 rounded hover:bg-gray-700">Shoes</a>
             <a href="{{ url('/products/bags') }}" class="block p-2 rounded hover:bg-gray-700">Bags</a>
@@ -35,8 +39,7 @@
             <strong class="block mt-4 mb-2">Payments</strong>
             <a href="{{ url('/payments/status') }}" class="block p-2 rounded hover:bg-gray-700">Payment Status</a>
 
-            <strong class="block mt-4 mb-2">Inventory</strong>
-            <a href="{{ url('/stocks') }}" class="block p-2 rounded hover:bg-gray-700">Stock Details</a>
+           
         </div>
     </aside>
 

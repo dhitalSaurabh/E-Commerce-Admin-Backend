@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventory;
-use App\Http\Requests\StoreInventoryRequest;
-use App\Http\Requests\UpdateInventoryRequest;
+use Illuminate\Http\Request;
 
 class InventoryController extends Controller
 {
@@ -13,15 +12,31 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        //
+        $inventories = Inventory::with(['variant.product'])->get();
+        return response()->json([
+            'message' => 'Inventories Retrieved',
+            'data' => $inventories
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreInventoryRequest $request)
+    public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            // 'user_id' => 'required|exists:users,id',
+            'variant_id' => 'required|exists:product_varients,id',
+            'stock_quantity' => 'required|integer|min:0',
+        ]);
+
+        // $inventory = Inventory::create($validated);
+        $inventory = $request->user()->inventories()->create($validated);
+
+        return response()->json([
+            'message' => 'Inventory Created',
+            'data' => $inventory
+        ], 201);
     }
 
     /**
@@ -29,15 +44,31 @@ class InventoryController extends Controller
      */
     public function show(Inventory $inventory)
     {
-        //
+        // $inventory = Inventory::with(['variant.product'])->findOrFail($inventory);
+
+        return response()->json([
+            'message' => 'Inventory Retrieved',
+            'data' => $inventory->load('variant.product'),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateInventoryRequest $request, Inventory $inventory)
+    public function update(Request $request, Inventory $inventory)
     {
-        //
+        // $inventory = Inventory::findOrFail($inventory);
+
+        $validated = $request->validate([
+            'stock_quantity' => 'sometimes|required|integer|min:0',
+        ]);
+
+        $inventory->update($validated);
+
+        return response()->json([
+            'message' => 'Inventory Updated',
+            'data' => $inventory
+        ]);
     }
 
     /**
@@ -45,6 +76,11 @@ class InventoryController extends Controller
      */
     public function destroy(Inventory $inventory)
     {
-        //
+        // $inventory = Inventory::findOrFail($inventory);
+        $inventory->delete();
+
+        return response()->json([
+            'message' => 'Inventory Deleted'
+        ]);
     }
 }

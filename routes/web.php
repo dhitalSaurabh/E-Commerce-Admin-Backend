@@ -35,6 +35,9 @@ Route::get('/products/bags', function () {
 Route::get('/products/product', function () {
     return view('products.product');
 });
+Route::get('/products/varient', function () {
+    return view('varient.varient');
+});
 Route::get('/categories/category', function () {
     return view('categories.category');
 });

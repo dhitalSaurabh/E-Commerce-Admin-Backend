@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductVarientController;
 use App\Http\Controllers\UserAuthController;
@@ -53,6 +54,16 @@ Route::prefix('admin')->group((function () {
         Route::post('productVarients', [ProductVarientController::class, 'store']);
         Route::put('productVarients/{productVarient}', [ProductVarientController::class, 'update']);
         Route::delete('productVarients/{productVarient}', [ProductVarientController::class, 'destroy']);
+    });
+    // Inventory Routes
+    Route::get('inventories', [InventoryController::class, 'index']);
+    Route::get('inventories/{inventory}', [InventoryController::class, 'show']);
+
+    // Protected routes
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('inventories', [InventoryController::class, 'store']);
+        Route::put('inventories/{inventory}', [InventoryController::class, 'update']);
+        Route::delete('inventories/{inventory}', [InventoryController::class, 'destroy']);
     });
 }));
 Route::prefix('admin')->group((function () {

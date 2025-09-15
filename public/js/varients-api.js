@@ -1,10 +1,10 @@
 // Load Categories
-async function loadProducts() {
-    const container = document.getElementById('productsGrid');
+async function loadVarients() {
+    const container = document.getElementById('varientsGrid');
     if (!container) return;
 
     try {
-        const response = await fetch("http://127.0.0.1:8000/api/admin/products", {
+        const response = await fetch("http://127.0.0.1:8000/api/admin/productVarients", {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -22,7 +22,7 @@ async function loadProducts() {
         }
 
         if (products.length === 0) {
-            container.innerHTML = '<p>No products found.</p>';
+            container.innerHTML = '<p>No varients found.</p>';
             return;
         }
 
@@ -86,7 +86,7 @@ async function loadProducts() {
 
 // Load Category when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    loadProducts();
+    loadVarients();
 
     // Your form submission listener remains unchanged here...
 });
@@ -102,7 +102,7 @@ function escapeHtml(text) {
 }
 // Post Products 
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('productsForm');
+    const form = document.getElementById('varientsForm');
     const errorMessage = document.getElementById('errorMessage');
 
     if (!form) return;
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const auth_token = localStorage.getItem('auth_token');
             // const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            const response = await fetch("http://127.0.0.1:8000/api/admin/products", {
+            const response = await fetch("http://127.0.0.1:8000/api/admin/productVarients", {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -152,13 +152,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Delete clothes
-async function deleteProductItem(id) {
+async function deleteVarientItem(id) {
     const auth_token = localStorage.getItem('auth_token');
 
     if (!confirm("Are you sure you want to delete this Category?")) return;
 
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/admin/products/${id}`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/admin/productVarients/${id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
@@ -180,7 +180,7 @@ async function deleteProductItem(id) {
 }
 
 // Update the clothes
-async function updateProductItem(id, updatedData) {
+async function updateVarientItem(id, updatedData) {
     const auth_token = localStorage.getItem('auth_token');
 
     const formData = new FormData();
@@ -192,7 +192,7 @@ async function updateProductItem(id, updatedData) {
     formData.append('_method', 'PUT');
 
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/admin/products/${id}`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/admin/productVarients/${id}`, {
             method: 'POST', // Or use PUT if your Laravel routes accept it
             headers: {
                 'Accept': 'application/json',

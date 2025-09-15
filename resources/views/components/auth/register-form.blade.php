@@ -1,22 +1,10 @@
-<form method="POST" action="{{ route('register') }}" class="space-y-4">
-    @csrf
-<x-input type="name" name="name" placeholder="Name" required />
-    @error('name')
-        <div class="text-red-500 text-sm">{{ $message }}</div>
-    @enderror
-    <x-input type="email" name="email" placeholder="Email" required />
-    @error('email')
-        <div class="text-red-500 text-sm">{{ $message }}</div>
-    @enderror
+<form id="registerForm" method="POST" class="space-y-4">
 
+    <x-input type="name" name="name" placeholder="Name" required />
+    <x-input type="email" name="email" placeholder="Email" required />
     <x-input type="password" name="password" placeholder="Password" required />
-    @error('password')
-        <div class="text-red-500 text-sm">{{ $message }}</div>
-    @enderror
     <x-input type="password" name="password_confirmation" placeholder="Confirm Password" required />
-    @error('password')
-        <div class="text-red-500 text-sm">{{ $message }}</div>
-    @enderror
 
     <x-button type="submit">Register</x-button>
+    <div id="errorMessage" class="text-red-500 mt-2"></div>
 </form>

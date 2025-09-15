@@ -57,11 +57,15 @@ class User extends Authenticatable
         return $this->hasMany(Category::class);
     }
     public function products()
-{
-    return $this->hasMany(Product::class);
-}
- public function productVarient()
-{
-    return $this->hasMany(Product::class);
-}
+    {
+        return $this->hasMany(Product::class);
+    }
+    public function productVarient()
+    {
+        return $this->hasMany(ProductVarient::class);
+    }
+    public function inventories()
+    {
+    return $this->hasMany(Inventory::class);
+    }
 }

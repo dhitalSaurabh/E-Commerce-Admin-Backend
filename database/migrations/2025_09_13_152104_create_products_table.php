@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->decimal('price', 10, 2);
             $table->string('brand', 100)->nullable();
             $table->string('sku', 100)->unique()->nullable();
+            $table->string('image');
             $table->timestamps();
         });
     }

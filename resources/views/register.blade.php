@@ -49,5 +49,6 @@
     <x-auth.register-form />
     {{-- <a>Click here if not registered.</a> --}}
     <p>Already have an account? <a href="{{ route('login') }}">Login here</a></p>
+     <script src="{{ asset('js/register-api.js')}}"></script>
 </x-layout>
 

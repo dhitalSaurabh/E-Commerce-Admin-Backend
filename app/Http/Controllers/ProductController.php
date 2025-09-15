@@ -31,8 +31,12 @@ class ProductController extends Controller
             'brand' => 'nullable|string|max:100',
             'sku' => 'nullable|string|max:100|unique:products,sku',
             'category_id' => 'required|exists:categories,id',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('product_images', 'public');
+            $fields['image'] = url('storage/' . $imagePath);
+        }
         $product = Product::create([
             ...$fields,
             'user_id' => $request->user()->id, // requires auth middleware
@@ -67,8 +71,12 @@ class ProductController extends Controller
             'brand' => 'nullable|string|max:100',
             'sku' => 'nullable|string|max:100|unique:products,sku,' . $product->id,
             'category_id' => 'nullable|exists:categories,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('product_images', 'public');
+            $fields['image'] = url('storage/' . $imagePath);
+        }
         $product->update($fields);
 
         return response()->json([

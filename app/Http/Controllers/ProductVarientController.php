@@ -12,8 +12,12 @@ class ProductVarientController extends Controller
      */
     public function index()
     {
-        $productVarient = ProductVarient::all();
-        return response()->json($productVarient);
+        // $productVarient = ProductVarient::all();
+        // return response()->json($productVarient);
+        return response()->json([
+            'message' => 'Product Varient Retrived',
+            'data' => ProductVarient::with(['product.category'])->get(),
+        ]);
     }
 
     /**
@@ -41,8 +45,10 @@ class ProductVarientController extends Controller
      */
     public function show(ProductVarient $productVarient)
     {
-         $productVarient = ProductVarient::findOrFail($id);
-        return response()->json($productVarient);
+        return response()->json([
+            'message' => 'Product Varient Retrived',
+            'data' => $productVarient->load(['product.category']),
+        ]);
     }
 
     /**
@@ -50,21 +56,24 @@ class ProductVarientController extends Controller
      */
     public function update(Request $request, ProductVarient $productVarient)
     {
-        $productVarient = ProductVarient::findOrFail($id);
+        // $productVarient = ProductVarient::findOrFail($id);
 
         $validated = $request->validate([
             // 'user_id' => 'sometimes|required|exists:users,id',
-            'product_id' => 'sometimes|required|exists:products,id',
+            'product_id' => 'nullable|required|exists:products,id',
             'size' => 'nullable|string|max:50',
             'color' => 'nullable|string|max:50',
             'material' => 'nullable|string|max:100',
             'additional_price' => 'nullable|numeric',
-            'sku' => 'nullable|string|max:100|unique:product_varients,sku,' . $id,
+            'sku' => 'nullable|string|max:100|unique:product_varients,sku,',
         ]);
 
         $productVarient->update($validated);
 
-        return response()->json(data: $productVarient);
+        return response()->json([
+            'message' => 'Product varient updated successfully',
+            'data' => $productVarient,
+        ]);
     }
 
     /**
@@ -72,9 +81,10 @@ class ProductVarientController extends Controller
      */
     public function destroy(ProductVarient $productVarient)
     {
-         $productVarient = ProductVarient::findOrFail($id);
         $productVarient->delete();
 
-        return response()->json(['message' => 'Product varient deleted successfully']);
+        return response()->json([
+            'message' => 'Product varient deleted successfully',
+        ]);
     }
 }
