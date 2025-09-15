@@ -1,10 +1,10 @@
 // Load Categories
-async function loadVarients() {
-    const container = document.getElementById('varientsGrid');
+async function loadProducts() {
+    const container = document.getElementById('productsGrid');
     if (!container) return;
 
     try {
-        const response = await fetch("http://127.0.0.1:8000/api/admin/productVarients", {
+        const response = await fetch("http://127.0.0.1:8000/api/admin/products", {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -13,67 +13,63 @@ async function loadVarients() {
         });
 
         const result = await response.json();
-        const variants = result.data;
+        const products = result.data;
         container.innerHTML = ''; // Clear grid
 
-        if (!Array.isArray(variants)) {
-            console.error("Expected array, got:", variants);
+        if (!Array.isArray(products)) {
+            console.error("Expected array, got:", products);
             return;
         }
 
-        if (variants.length === 0) {
-            container.innerHTML = '<p>No variants found.</p>';
+        if (products.length === 0) {
+            container.innerHTML = '<p>No products found.</p>';
             return;
         }
 
-        variants.forEach(variant => {
+        products.forEach(item => {
             const {
                 id,
-                size,
-                color,
-                material,
-                additional_price,
+                name,
+                image,
+                description,
+                price,
+                brand,
                 sku,
                 created_at,
-                product
-            } = variant;
+                category
+            } = item;
 
-            const formattedDate = new Date(created_at).toLocaleDateString('en-GB'); // dd/mm/yyyy
-            const productId = product?.id ?? 0;
-            const productName = product?.name ?? 'Unnamed';
-            const productPrice = product?.price ?? 'N/A';
-            const productBrand = product?.brand ?? 'N/A';
-            const productImage = product?.image ?? '';
-            const categoryName = product?.category?.name ?? 'Uncategorized';
+            const categoryName = category?.name ?? 'Uncategorized';
+            const categoryId = category?.id ?? 0;
+            const formattedDate = new Date(created_at).toLocaleDateString('en-US'); // MM/DD/YY format
 
             const card = document.createElement('div');
             card.className = 'border rounded shadow p-4 bg-white max-w-sm';
 
             card.innerHTML = `
-                <img src="${productImage}" alt="${escapeHtml(productName)}" class="w-full h-48 object-cover rounded mb-3">
+                <img src="${image}" alt="${escapeHtml(name)}" class="w-full h-48 object-cover rounded mb-3">
 
-                <h2 class="text-xl font-bold">${escapeHtml(productName)}</h2>
+                <h2 class="text-xl font-bold">${escapeHtml(name)}</h2>
 
-                <ul class="text-sm mb-2 space-y-1">
-                    <li><strong>Category:</strong> ${escapeHtml(categoryName)}</li>
-                    <li><strong>Brand:</strong> ${escapeHtml(productBrand)}</li>
-                    <li><strong>Base Price:</strong> ₹${productPrice}</li>
-                    <li><strong>Variant Price (Extra):</strong> Rs.${additional_price}</li>
+                <p class="text-sm text-gray-600 mb-2">${escapeHtml(description)}</p>
+
+                <ul class="text-sm mb-3 space-y-1">
+                    <li><strong>Price:</strong> ₹${price}</li>
+                    <li><strong>Brand:</strong> ${escapeHtml(brand)}</li>
                     <li><strong>SKU:</strong> ${escapeHtml(sku)}</li>
-                    <li><strong>Size(s):</strong> ${escapeHtml(size)}</li>
-                    <li><strong>Color(s):</strong> ${escapeHtml(color)}</li>
-                    <li><strong>Material:</strong> ${escapeHtml(material ?? 'N/A')}</li>
-                    <li><strong>Created At:</strong> ${formattedDate}</li>
+                    <li><strong>Category:</strong> ${escapeHtml(categoryName)}</li>
+                    <li><strong>Created:</strong> ${formattedDate}</li>
                 </ul>
 
                 <div class="mt-3 flex gap-2">
                     <button
                         class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
-                        onclick="openEditDialog(${id},${productId},'${escapeHtml(size)}','${escapeHtml(color)}','${escapeHtml(material)}',${additional_price}, '${escapeHtml(sku)}')"
+                        onclick="openEditDialog(${id}, '${escapeHtml(name)}', '${escapeHtml(description)}', ${price}, '${escapeHtml(brand)}', '${escapeHtml(sku)}', ${categoryId})"
                     >Edit</button>
+
                     <button
                         class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
-                        onclick='deleteVariantItem(${id})'
+                        onclick='deleteProductItem(${id})'
                     >Delete</button>
                 </div>
             `;
@@ -82,15 +78,15 @@ async function loadVarients() {
         });
 
     } catch (error) {
-        console.error("Failed to fetch product variants:", error);
-        container.innerHTML = "<p class='text-red-500'>Failed to load product variants.</p>";
+        console.error("Failed to fetch products:", error);
+        container.innerHTML = "<p class='text-red-500'>Failed to load products.</p>";
     }
 }
 
 
 // Load Category when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    loadVarients();
+    loadProducts();
 
     // Your form submission listener remains unchanged here...
 });
@@ -106,7 +102,7 @@ function escapeHtml(text) {
 }
 // Post Products 
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('varientsForm');
+    const form = document.getElementById('productsForm');
     const errorMessage = document.getElementById('errorMessage');
 
     if (!form) return;
@@ -124,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const auth_token = localStorage.getItem('auth_token');
             // const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            const response = await fetch("http://127.0.0.1:8000/api/admin/productVarients", {
+            const response = await fetch("http://127.0.0.1:8000/api/admin/products", {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -156,13 +152,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Delete clothes
-async function deleteVariantItem(id) {
+async function deleteProductItem(id) {
     const auth_token = localStorage.getItem('auth_token');
 
     if (!confirm("Are you sure you want to delete this Category?")) return;
 
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/admin/productVarients/${id}`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/admin/products/${id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
@@ -184,7 +180,7 @@ async function deleteVariantItem(id) {
 }
 
 // Update the clothes
-async function updateVarientItem(id, updatedData) {
+async function updateProductItem(id, updatedData) {
     const auth_token = localStorage.getItem('auth_token');
 
     const formData = new FormData();
@@ -196,7 +192,7 @@ async function updateVarientItem(id, updatedData) {
     formData.append('_method', 'PUT');
 
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/admin/productVarients/${id}`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/admin/products/${id}`, {
             method: 'POST', // Or use PUT if your Laravel routes accept it
             headers: {
                 'Accept': 'application/json',
@@ -206,13 +202,12 @@ async function updateVarientItem(id, updatedData) {
         });
 
         const data = await response.json();
-        console.log(data);
-        if (response.status == 200 || response.status == 201) {
 
+        if (!response.status == 200 || response.status == 201) {
+            console.error('Update failed:', data.errors);
+        } else {
             alert('Category item updated!');
             window.location.reload();
-        } else {
-            console.error('Update failed:', data.errors);
         }
 
     } catch (err) {

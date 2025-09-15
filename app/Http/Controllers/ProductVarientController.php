@@ -60,7 +60,7 @@ class ProductVarientController extends Controller
 
         $validated = $request->validate([
             // 'user_id' => 'sometimes|required|exists:users,id',
-            'product_id' => 'nullable|required|exists:products,id',
+            'product_id' => 'nullable|exists:products,id',
             'size' => 'nullable|string|max:50',
             'color' => 'nullable|string|max:50',
             'material' => 'nullable|string|max:100',

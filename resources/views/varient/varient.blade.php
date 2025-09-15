@@ -83,7 +83,7 @@
     <div class="container mt-4">
         <!-- Top Bar with Title and Add Button -->
         <div class="top-bar">
-            <h1>All Product Variant</h1>
+            <h1>All Product Variants</h1>
             <button class="btn-add" onclick="openDialog()">+ Add Product Variants</button>
         </div>
 
@@ -104,11 +104,11 @@
     </div>
     <x-varient-form.update-varients />
     <!-- Clothes grid -->
-    <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div id="varientsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <!-- JavaScript will populate clothes here -->
     </div>
-    {{-- <script src="{{ asset('js/products-api.js')}}"></script> --}}
-    {{-- <script src="{{ asset('js/dropdown-categories.js')}}"></script> --}}
+    <script src="{{ asset('js/varients-api.js')}}"></script>
+    <script src="{{ asset('js/drop-products.js')}}"></script>
     {{-- <script src="{{ asset('js/load-clothes.js')}}"></script> --}}
 
     <script>
@@ -122,15 +122,15 @@
     </script>
 
     <script>
-        function openEditDialog(id, name, description, price, brand, sku, categoryId) {
+        function openEditDialog(id, productId, size, color, material, additional_price, sku) {
             document.getElementById("editId").value = id;
-            console.log(id);
-            document.getElementById("editName").value = name;
-            document.getElementById("editDescription").value = description;
-            document.getElementById("editPrice").value = price;
-            document.getElementById("editBrand").value = brand;
+            // console.log(id);
+            document.getElementById("editProductId").value = productId;
+            document.getElementById("editSize").value = size;
+            document.getElementById("editColor").value = color;
+            document.getElementById("editMaterial").value = material;
+            document.getElementById("editAdditionalPrice").value = additional_price;
             document.getElementById("editSku").value = sku;
-            document.getElementById("editCategory").value = categoryId;
             document.getElementById("editDialog").classList.remove("hidden");
             document.getElementById("editDialog").classList.add("flex");
         }
@@ -143,20 +143,20 @@
 
             const id = document.getElementById("editId").value;
             const updatedData = {
-                name: document.getElementById("editName").value,
-                description: document.getElementById("editDescription").value,
-                price: document.getElementById("editPrice").value,
-                brand: document.getElementById("editBrand").value,
+                productId: document.getElementById("editProductId").value,
+                size: document.getElementById("editSize").value,
+                color: document.getElementById("editColor").value,
+                material: document.getElementById("editMaterial").value,
+                additional_price: document.getElementById("editAdditionalPrice").value,
                 sku: document.getElementById("editSku").value,
-                categoryId: document.getElementById("editCategory").value,
 
                 // price: document.getElementById("editPrice").value,
             };
 
-            const imageFile = document.getElementById("editImage").files[0];
-            if (imageFile) updatedData.image = imageFile;
+            // const imageFile = document.getElementById("editImage").files[0];
+            // if (imageFile) updatedData.image = imageFile;
 
-            await updateProductItem(id, updatedData);
+            await updateVarientItem(id, updatedData);
         });
 
     </script>

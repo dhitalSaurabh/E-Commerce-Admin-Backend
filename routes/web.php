@@ -41,6 +41,9 @@ Route::get('/products/varient', function () {
 Route::get('/categories/category', function () {
     return view('categories.category');
 });
+Route::get('/inventory/inventories', function () {
+    return view('inventory.inventories');
+});
 Route::get('/app', function () {
     return view('layouts.app');
 });

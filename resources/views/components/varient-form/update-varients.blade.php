@@ -4,37 +4,40 @@
         <h2 class="text-xl font-bold mb-4">Edit Clothing</h2>
         <form id="editForm" method="POST" enctype="multipart/form-data" class="space-y-4">
             <input type="hidden" id="editId">
-            <div>
+            {{-- <div>
                 <label for="productId" class="block text-gray-700 font-medium mb-1">Product Id</label>
-                <input type="text" id="product_id" name="product_id" required
+                <input type="number" id="editProductId" name="product_id" required
                     class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
-            </div>
-
+            </div> --}}
+            <select id="editProductId" name="editProductId" required
+                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <option value="">Select a Product</option>
+            </select>
             <div>
                 <label for="size" class="block text-gray-700 font-medium mb-1">Size</label>
-                <input type="text" id="size" name="size" required
+                <input type="text" id="editSize" name="size" required
                     class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
 
             <div>
                 <label for="color" class="block text-gray-700 font-medium mb-1">Color</label>
-                <input type="number" step="1" id="color" name="color" required
+                <input type="text" step="1" id="editColor" name="color" required
                     class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
 
             <div>
                 <label for="material" class="block text-gray-700 font-medium mb-1">Material</label>
-                <input type="text" id="material" name="material" required
+                <input type="text" id="editMaterial" name="material" required
                     class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
             <div>
                 <label for="additional_price" class="block text-gray-700 font-medium mb-1">Additional_price</label>
-                <input type="text" id="additional_price" name="additional_price" required
+                <input type="number" id="editAdditionalPrice" name="additional_price" required
                     class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
             <div>
                 <label for="sku" class="block text-gray-700 font-medium mb-1">SKU</label>
-                <input type="text" id="sku" name="sku" required placeholder="NIKE-AMAX-001"
+                <input type="text" id="editSku" name="sku" required placeholder="NIKE-AMAX-001"
                     class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
             {{-- <select id="category_id" name="category_id" required

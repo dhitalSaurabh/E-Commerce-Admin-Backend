@@ -23,7 +23,7 @@
             <a href="{{ url('/products/product') }}" class="block p-2 rounded hover:bg-gray-700">Product</a>
             <a href="{{ url('/products/varient') }}" class="block p-2 rounded hover:bg-gray-700">Variant</a>
             <strong class="block mt-4 mb-2">Inventory</strong>
-            <a href="{{ url('/stocks') }}" class="block p-2 rounded hover:bg-gray-700">Stock Details</a>
+            <a href="{{ url('/inventory/inventories') }}" class="block p-2 rounded hover:bg-gray-700">Stock Details</a>
 
             <a href="{{ url('/products/clothes') }}" class="block p-2 rounded hover:bg-gray-700">Clothes</a>
             <a href="{{ url('/products/shoes') }}" class="block p-2 rounded hover:bg-gray-700">Shoes</a>
