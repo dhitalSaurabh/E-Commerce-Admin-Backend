@@ -10,12 +10,17 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/login', [AuthAdminController::class, 'showLogin'])->name('login');
+// Route::get('/login', [AuthAdminController::class, 'showLogin'])->name('login');
 // Route::post('/login', [AuthAdminController::class, 'login']);
 
-Route::get('/register', [AuthAdminController::class, 'showRegister'])->name('register');
+// Route::get('/register', [AuthAdminController::class, 'showRegister'])->name('register');
 // Route::post('/register', [AuthAdminController::class, 'register']);
-
+Route::get('/auth/login', function () {
+    return view('login');
+});
+Route::get('/auth/register', function () {
+    return view('register');
+});
 // Route::post('/logout', [AuthAdminController::class, 'logout'])->name('logout');
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -43,6 +48,9 @@ Route::get('/categories/category', function () {
 });
 Route::get('/inventory/inventories', function () {
     return view('inventory.inventories');
+});
+Route::get('/auth', function () {
+    return view('layouts.auth');
 });
 Route::get('/app', function () {
     return view('layouts.app');

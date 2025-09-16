@@ -1,10 +1,10 @@
-// Load Categories
-async function loadProducts() {
-    const container = document.getElementById('productsGrid');
+// Load Inventory
+async function loadInventory() {
+    const container = document.getElementById('inventoryGrid');
     if (!container) return;
 
     try {
-        const response = await fetch("http://127.0.0.1:8000/api/admin/products", {
+        const response = await fetch("http://127.0.0.1:8000/api/admin/inventories", {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -13,35 +13,43 @@ async function loadProducts() {
         });
 
         const result = await response.json();
-        const products = result.data;
+        const stocks = result.data;
         container.innerHTML = ''; // Clear grid
 
-        if (!Array.isArray(products)) {
-            console.error("Expected array, got:", products);
+        if (!Array.isArray(stocks)) {
+            console.error("Expected array, got:", stocks);
             return;
         }
 
-        if (products.length === 0) {
-            container.innerHTML = '<p>No products found.</p>';
+        if (stocks.length === 0) {
+            container.innerHTML = '<p>No stocks found.</p>';
             return;
         }
 
-        products.forEach(item => {
+        stocks.forEach(item => {
             const {
                 id,
-                name,
-                image,
-                description,
-                price,
-                brand,
-                sku,
+                stock_quantity,
                 created_at,
-                category
+                variant
             } = item;
 
-            const categoryName = category?.name ?? 'Uncategorized';
-            const categoryId = category?.id ?? 0;
-            const formattedDate = new Date(created_at).toLocaleDateString('en-US'); // MM/DD/YY format
+            const variantName = `Variant #${variant?.id ?? 'N/A'}`;
+            const variantId = `${variant?.id ?? 0}`;
+
+            const size = variant?.size ?? 'N/A';
+            const color = variant?.color ?? 'N/A';
+            const variantSku = variant?.sku ?? 'N/A';
+            const additionalPrice = variant?.additional_price ?? 0;
+
+            const product = variant?.product ?? {};
+            const name = product.name ?? 'Unnamed Product';
+            const description = product.description ?? '';
+            const price = product.price ?? 0;
+            const brand = product.brand ?? 'Unknown';
+            const sku = product.sku ?? 'N/A';
+            const image = product.image ?? '';
+            const formattedDate = new Date(created_at).toLocaleDateString('en-GB'); // dd/mm/yyyy
 
             const card = document.createElement('div');
             card.className = 'border rounded shadow p-4 bg-white max-w-sm';
@@ -50,26 +58,30 @@ async function loadProducts() {
                 <img src="${image}" alt="${escapeHtml(name)}" class="w-full h-48 object-cover rounded mb-3">
 
                 <h2 class="text-xl font-bold">${escapeHtml(name)}</h2>
-
                 <p class="text-sm text-gray-600 mb-2">${escapeHtml(description)}</p>
 
                 <ul class="text-sm mb-3 space-y-1">
-                    <li><strong>Price:</strong> ₹${price}</li>
+                    <li><strong>Stock Quantity:</strong> ${stock_quantity}</li>
+                    <li><strong>Created Date:</strong> ${formattedDate}</li>
+                    <li><strong>Variant Name:</strong> ${escapeHtml(variantName)}</li>
+                    <li><strong>Size:</strong> ${escapeHtml(size)}</li>
+                    <li><strong>Color:</strong> ${escapeHtml(color)}</li>
+                    <li><strong>Variant SKU:</strong> ${escapeHtml(variantSku)}</li>
+                    <li><strong>Additional Price:</strong> ₹${additionalPrice}</li>
+                    <li><strong>Product Price:</strong> ₹${price}</li>
                     <li><strong>Brand:</strong> ${escapeHtml(brand)}</li>
-                    <li><strong>SKU:</strong> ${escapeHtml(sku)}</li>
-                    <li><strong>Category:</strong> ${escapeHtml(categoryName)}</li>
-                    <li><strong>Created:</strong> ${formattedDate}</li>
+                    <li><strong>Product SKU:</strong> ${escapeHtml(sku)}</li>
                 </ul>
 
                 <div class="mt-3 flex gap-2">
                     <button
                         class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
-                        onclick="openEditDialog(${id}, '${escapeHtml(name)}', '${escapeHtml(description)}', ${price}, '${escapeHtml(brand)}', '${escapeHtml(sku)}', ${categoryId})"
+                        onclick="openEditDialog(${id},${variantId}, ${stock_quantity})"
                     >Edit</button>
 
                     <button
                         class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
-                        onclick='deleteProductItem(${id})'
+                        onclick='deleteInventoryItem(${id})'
                     >Delete</button>
                 </div>
             `;
@@ -78,15 +90,16 @@ async function loadProducts() {
         });
 
     } catch (error) {
-        console.error("Failed to fetch products:", error);
-        container.innerHTML = "<p class='text-red-500'>Failed to load products.</p>";
+        console.error("Failed to fetch stocks:", error);
+        container.innerHTML = "<p class='text-red-500'>Failed to load stocks.</p>";
     }
 }
 
 
-// Load Category when DOM is ready
+
+// Load Inventory when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    loadProducts();
+    loadInventory();
 
     // Your form submission listener remains unchanged here...
 });
@@ -100,9 +113,9 @@ function escapeHtml(text) {
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
-// Post Products 
+// Post Inventory 
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('productsForm');
+    const form = document.getElementById('InventoryForm');
     const errorMessage = document.getElementById('errorMessage');
 
     if (!form) return;
@@ -112,15 +125,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const formData = new FormData(form);
         console.log(formData);
-        // const name = document.getElementById('name').value;
-        // const slug = document.getElementById('slug').value;
-        // const description = document.getElementById('description').value;
-        // const price = document.getElementById('price').value;
-        // const image = document.getElementById('image').value;
         try {
             const auth_token = localStorage.getItem('auth_token');
             // const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            const response = await fetch("http://127.0.0.1:8000/api/admin/products", {
+            const response = await fetch("http://127.0.0.1:8000/api/admin/inventories", {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -138,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 errorMessage.textContent = responseData.message || 'Error submitting form.';
                 console.error('Validation Errors:', responseData.errors);
             } else {
-                alert('Product added Successfully');
+                alert('Stock added Successfully');
                 form.reset();
                 errorMessage.textContent = '';
                 window.location.reload();
@@ -151,14 +159,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Delete clothes
-async function deleteProductItem(id) {
+// Delete Inventory
+async function deleteInventoryItem(id) {
     const auth_token = localStorage.getItem('auth_token');
 
-    if (!confirm("Are you sure you want to delete this Category?")) return;
+    if (!confirm("Are you sure you want to delete this Stock?")) return;
 
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/admin/products/${id}`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/admin/inventories/${id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
@@ -170,7 +178,7 @@ async function deleteProductItem(id) {
             const data = await response.json();
             alert(data.message || 'Failed to delete.');
         } else {
-            alert("Category item deleted.");
+            alert("Stock item deleted.");
             window.location.reload();
         }
 
@@ -179,8 +187,8 @@ async function deleteProductItem(id) {
     }
 }
 
-// Update the clothes
-async function updateProductItem(id, updatedData) {
+// Update the Inventory
+async function updateInventoryItem(id, updatedData) {
     const auth_token = localStorage.getItem('auth_token');
 
     const formData = new FormData();
@@ -192,7 +200,7 @@ async function updateProductItem(id, updatedData) {
     formData.append('_method', 'PUT');
 
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/admin/products/${id}`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/admin/inventories/${id}`, {
             method: 'POST', // Or use PUT if your Laravel routes accept it
             headers: {
                 'Accept': 'application/json',
@@ -206,7 +214,7 @@ async function updateProductItem(id, updatedData) {
         if (!response.status == 200 || response.status == 201) {
             console.error('Update failed:', data.errors);
         } else {
-            alert('Category item updated!');
+            alert('Inventory item updated!');
             window.location.reload();
         }
 

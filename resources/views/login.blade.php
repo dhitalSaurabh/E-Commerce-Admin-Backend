@@ -1,15 +1,21 @@
-<x-layout>
-    {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
-    <h1 class="text-2xl font-bold mb-4">Login Here</h1>
+@extends('layouts.auth')
 
-    @if(session('error'))
-        <div class="bg-red-100 text-red-700 p-3 mb-4 rounded">
-            {{ session('error') }}
-        </div>
-    @endif
+@section('content')
+{{-- <x-layout> --}}
+    <div class="bg-white bg-opacity-90 shadow-xl rounded-lg p-8 w-full max-w-md z-10">
+        <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">Login Here</h1>
 
-    <x-auth.login-form />
-    {{-- <a>Click here if not registered.</a> --}}
-    <p>Click here if not registered<a href="{{ route('register') }}">Register here</a></p>
+        @if(session('error'))
+            <div class="bg-red-100 text-red-700 p-3 mb-4 rounded text-sm">
+                {{ session('error') }}
+            </div>
+        @endif
+        <x-auth.login-form />
+        <p class="mt-6 text-center text-sm text-gray-700">
+            Not registered yet?
+            <a href="{{ url('/auth/register') }}" class="text-indigo-600 hover:underline font-medium">Register here</a>
+        </p>
+    </div>
     <script src="{{ asset('js/login-api.js')}}"></script>
-</x-layout>
+{{-- </x-layout> --}}
+@endsection

@@ -83,7 +83,7 @@
     <div class="container mt-4">
         <!-- Top Bar with Title and Add Button -->
         <div class="top-bar">
-            <h1>All Products</h1>
+            <h1>All Stocks</h1>
             <button class="btn-add" onclick="openDialog()">+ Add Products</button>
         </div>
 
@@ -95,42 +95,42 @@
         </div>
     @endif
     <!-- Dialog Overlay -->
-    <div class="dialog-overlay" id="addClothesDialog">
+    <div class="dialog-overlay" id="addInventoryDialog">
         <div class="dialog-box">
             <button class="close-dialog" onclick="closeDialog()">×</button>
-            <h2>Add Products</h2>
-            <x-product-form.post-products />
+            <h2>Add Stocks</h2>
+            <x-inventory-form.post-inventory />
         </div>
     </div>
-    <x-product-form.update-products />
+    <x-inventory-form.update-inventory />
     <!-- Clothes grid -->
-    <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div id="inventoryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <!-- JavaScript will populate clothes here -->
     </div>
-    <script src="{{ asset('js/products-api.js')}}"></script>
-    <script src="{{ asset('js/dropdown-categories.js')}}"></script>
+    <script src="{{ asset('js/inventory-api.js')}}"></script>
+    <script src="{{ asset('js/drop-varient.js')}}"></script>
     {{-- <script src="{{ asset('js/load-clothes.js')}}"></script> --}}
 
     <script>
         function openDialog() {
-            document.getElementById('addClothesDialog').style.display = 'flex';
+            document.getElementById('addInventoryDialog').style.display = 'flex';
         }
 
         function closeDialog() {
-            document.getElementById('addClothesDialog').style.display = 'none';
+            document.getElementById('addInventoryDialog').style.display = 'none';
         }
     </script>
 
     <script>
-        function openEditDialog(id, name, description, price, brand, sku, categoryId) {
+        function openEditDialog(id, varientId, stock_quantity) {
             document.getElementById("editId").value = id;
             console.log(id);
-            document.getElementById("editName").value = name;
-            document.getElementById("editDescription").value = description;
-            document.getElementById("editPrice").value = price;
-            document.getElementById("editBrand").value = brand;
-            document.getElementById("editSku").value = sku;
-            document.getElementById("EditcategoryId").value = categoryId;
+            document.getElementById("editVarientId").value = varientId;
+            document.getElementById("editStockQuantity").value = stock_quantity;
+            // document.getElementById("editPrice").value = price;
+            // document.getElementById("editBrand").value = brand;
+            // document.getElementById("editSku").value = sku;
+            // document.getElementById("EditcategoryId").value = categoryId;
             document.getElementById("editDialog").classList.remove("hidden");
             document.getElementById("editDialog").classList.add("flex");
         }
@@ -143,20 +143,10 @@
 
             const id = document.getElementById("editId").value;
             const updatedData = {
-                name: document.getElementById("editName").value,
-                description: document.getElementById("editDescription").value,
-                price: document.getElementById("editPrice").value,
-                brand: document.getElementById("editBrand").value,
-                sku: document.getElementById("editSku").value,
-                categoryId: document.getElementById("EditcategoryId").value,
-
-                // price: document.getElementById("editPrice").value,
+                varientId: document.getElementById("editVarientId").value,
+                stock_quantity: document.getElementById("editStockQuantity").value,
             };
-
-            const imageFile = document.getElementById("editImage").files[0];
-            if (imageFile) updatedData.image = imageFile;
-
-            await updateProductItem(id, updatedData);
+            await updateInventoryItem(id, updatedData);
         });
 
     </script>

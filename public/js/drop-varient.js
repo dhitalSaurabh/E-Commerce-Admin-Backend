@@ -1,10 +1,10 @@
 
-async function loadProducts(productId = 'product_id') {
-    const select = document.getElementById(productId);
+async function loadVarients(variantId = 'variant_id') {
+    const select = document.getElementById(variantId);
     if (!select) return;
 
     try {
-        const response = await fetch("http://127.0.0.1:8000/api/admin/products", {
+        const response = await fetch("http://127.0.0.1:8000/api/admin/productVarients", {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -14,32 +14,32 @@ async function loadProducts(productId = 'product_id') {
 
         const result = await response.json();
         console.log("API Response:", result); // 🔍 Add this
-        const products = result.data;
+        const variant = result.data;
 
-        if (!Array.isArray(products)) {
-            console.error("Expected array, got:", products);
+        if (!Array.isArray(variant)) {
+            console.error("Expected array, got:", variant);
             return;
         }
 
         // Clear existing options (except the first one)
-        select.innerHTML = '<option value="">Select a Product</option>';
+        select.innerHTML = '<option value="">Select a Product variant</option>';
 
-        products.forEach(product => {
+        variant.forEach(variant => {
             const option = document.createElement('option');
-            option.value = product.id;
-            option.textContent = product.name;
+            option.value = variant.id;
+            option.textContent = variant.sku;
             select.appendChild(option);
         });
 
     } catch (error) {
-        console.error("Failed to load products:", error);
+        console.error("Failed to load variants:", error);
     }
 }
 
 // Load on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
-    loadProducts("product_id");
-    loadProducts("editProductId");
+    loadVarients("variant_id");
+    loadVarients("editVarientId");
 
 });
 
