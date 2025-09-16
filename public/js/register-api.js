@@ -37,9 +37,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // // ✅ Store token and redirect
             // localStorage.setItem('auth_token', data.token.plainTextToken);
-
+ localStorage.setItem('register_success', 'You have registered successfully, proceed to login.');
             // Redirect to dashboard or home
-            window.location.href = "/login";
+            window.location.href = "/auth/login";
         } catch (error) {
             console.error(error);
             document.getElementById('errorMessage').innerText = "An error occurred. Try again.";

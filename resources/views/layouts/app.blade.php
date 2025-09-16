@@ -47,12 +47,19 @@
     <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-30 md:hidden"></div>
     <!-- Main Content -->
     <main class="flex-1 p-6 bg-gray-100 w-full">
+        <div class="flex justify-end mb-4">
+        <button id="logoutBtn" onclick="userLogout()" class="p-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition duration-300">
+            Logout
+        </button>
+{{-- </div> --}}
         <!-- Menu Button -->
         <div class="flex justify-end md:hidden mb-4">
             <button id="menuBtn" class="p-2 bg-gray-900 text-white rounded">
                 ☰ Menu
             </button>
         </div>
+    </div>
+        
 @hasSection ('content')
     @yield('content')
 @else
@@ -61,6 +68,7 @@
 @endif
         
     </main>
+<!-- Top Bar -->
 
     <script>
         const sidebar = document.getElementById('sidebar');
@@ -77,6 +85,53 @@
             overlay.classList.add('hidden');
         });
     </script>
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const successMessage = localStorage.getItem('login_success');
+
+    if (successMessage) {
+        // Show the notification
+        showPopup(successMessage);
+
+        // Remove it so it doesn’t show again on refresh
+        localStorage.removeItem('login_success');
+    }
+
+    function showPopup(message) {
+        const notification = document.createElement('div');
+        notification.innerText = message;
+        notification.className = 'fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50 transition-opacity duration-500 opacity-0';
+        document.body.appendChild(notification);
+
+        // Fade in
+        setTimeout(() => {
+            notification.classList.add('opacity-100');
+        }, 10);
+
+        // Fade out after 3s
+        setTimeout(() => {
+            notification.classList.remove('opacity-100');
+            notification.classList.add('opacity-0');
+            setTimeout(() => notification.remove(), 500);
+        }, 3000);
+    }
+});
+</script>
+<script>
+    // public/js/auth.js
+
+document.addEventListener('DOMContentLoaded', function () {
+    const token = localStorage.getItem('auth_token');
+
+    if (!token) {
+        // Not logged in, redirect to login page
+        window.location.href = '/auth/login';
+    }
+
+    // Optional: You can add token validation via API call here if needed
+});
+</script>
+<script src="{{ asset('js/logout-api.js')}}"></script>
 </body>
 
 </html>

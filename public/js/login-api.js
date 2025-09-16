@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // ✅ Store token and redirect
             localStorage.setItem('auth_token', data.token.plainTextToken);
-
+            localStorage.setItem('login_success', 'You have successfully logged in.');
             // Redirect to dashboard or home
             window.location.href = "/app";
         } catch (error) {
