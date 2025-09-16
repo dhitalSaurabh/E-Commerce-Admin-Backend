@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\OTPController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductVarientController;
 use App\Http\Controllers\UserAuthController;
@@ -66,6 +69,23 @@ Route::prefix('admin')->group((function () {
         Route::delete('inventories/{inventory}', [InventoryController::class, 'destroy']);
     });
 }));
+Route::prefix('customer')->group((function () {
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('showCustomers', [CustomerController::class, 'index']);
+        Route::delete('delete/{customer}', [CustomerController::class, 'destroy']);
+    });
+// Customer Verify OTP
+    Route::post('/send-otp', [OTPController::class, 'sendOtp']);
+Route::post('/verify-otp', [OTPController::class, 'verifyOtp']);
+}));
+
+Route::prefix('customer')->group((function () {
+    Route::post('/registers', [AuthController::class, 'registers']);
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/logout', [AuthController::class, 'logout'])
+        ->middleware(['auth:sanctum', 'token.expiry']);
+}));
+
 Route::prefix('admin')->group((function () {
     Route::post('/registers', [UserAuthController::class, 'registers']);
     Route::post('/login', [UserAuthController::class, 'login']);

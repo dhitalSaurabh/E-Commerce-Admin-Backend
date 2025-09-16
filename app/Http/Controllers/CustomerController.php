@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\customer;
-use App\Http\Requests\StorecustomerRequest;
-use App\Http\Requests\UpdatecustomerRequest;
+use Illuminate\Http\Request;
+
 
 class CustomerController extends Controller
 {
@@ -13,13 +13,13 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        return Customer::latest()->get();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorecustomerRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatecustomerRequest $request, customer $customer)
+    public function update(Request $request, customer $customer)
     {
         //
     }
@@ -45,6 +45,9 @@ class CustomerController extends Controller
      */
     public function destroy(customer $customer)
     {
-        //
+        $customer->delete();
+        return response()->json([
+            'message' => 'customer deleted successfully',
+        ]);
     }
 }
