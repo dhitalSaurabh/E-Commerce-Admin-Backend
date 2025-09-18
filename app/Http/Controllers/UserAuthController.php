@@ -40,16 +40,6 @@ class UserAuthController extends Controller
         if (!Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'Invalid credentials.'], 401);
         }
-
-        // // Check if email is verified
-        // if (is_null($user->email_verified_at)) {
-        //     return response()->json(['message' => 'Email not verified.'], 403);
-        // }
-
-        // Check if user is approved
-        // if (!$user->isapproved) {
-        //     return response()->json(['message' => 'Account not approved by admin.'], 403);
-        // }
         $token = $user->createToken($user->name);
         $accessToken = $token->accessToken;
 

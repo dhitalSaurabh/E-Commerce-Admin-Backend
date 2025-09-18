@@ -43,8 +43,17 @@ class Customer extends Model
             'password' => 'hashed',
         ];
     }
-    public function customer()
+    public function useraddress()
     {
         return $this->hasOne(UserAddress::class, 'customer_id');
     }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+    public function ordereditems()
+    {
+        return $this->hasMany(OrderedItem::class);
+    }
+
 }

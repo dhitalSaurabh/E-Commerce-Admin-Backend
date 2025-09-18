@@ -4,9 +4,12 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderedItemController;
 use App\Http\Controllers\OTPController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductVarientController;
+use App\Http\Controllers\UserAddressController;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\AuthAdminController;
 use App\Http\Controllers\ClothController;
@@ -68,15 +71,48 @@ Route::prefix('admin')->group((function () {
         Route::put('inventories/{inventory}', [InventoryController::class, 'update']);
         Route::delete('inventories/{inventory}', [InventoryController::class, 'destroy']);
     });
+
+
 }));
 Route::prefix('customer')->group((function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('showCustomers', [CustomerController::class, 'index']);
         Route::delete('delete/{customer}', [CustomerController::class, 'destroy']);
+
+        // Customer Address
+        Route::get('userAddress', [UserAddressController::class, 'index']);
+        Route::get('userAddress/{userAddress}', [UserAddressController::class, 'show']);
+
+        // Protected routes
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::post('userAddress', [UserAddressController::class, 'store']);
+            Route::put('userAddress/{userAddress}', [UserAddressController::class, 'update']);
+            Route::delete('userAddress/{userAddress}', [UserAddressController::class, 'destroy']);
+        });
+        // Order Item
+        Route::get('orders', [OrderController::class, 'index']);
+        Route::get('orders/{order}', [OrderController::class, 'show']);
+
+        // Protected routes
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::post('orders', [OrderController::class, 'store']);
+            Route::put('orders/{order}', [OrderController::class, 'update']);
+            Route::delete('orders/{order}', [OrderController::class, 'destroy']);
+        });
+        // Order Item
+        Route::get('orderedItems', [OrderedItemController::class, 'index']);
+        Route::get('orderedItems/{orderedItem}', [OrderedItemController::class, 'show']);
+
+        // Protected routes
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::post('orderedItems', [OrderedItemController::class, 'store']);
+            Route::put('orderedItems/{orderedItem}', [OrderedItemController::class, 'update']);
+            Route::delete('orderedItems/{orderedItem}', [OrderedItemController::class, 'destroy']);
+        });
     });
-// Customer Verify OTP
+    // Customer Verify OTP
     Route::post('/send-otp', [OTPController::class, 'sendOtp']);
-Route::post('/verify-otp', [OTPController::class, 'verifyOtp']);
+    Route::post('/verify-otp', [OTPController::class, 'verifyOtp']);
 }));
 
 Route::prefix('customer')->group((function () {

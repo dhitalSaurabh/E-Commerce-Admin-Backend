@@ -33,4 +33,8 @@ class ProductVarient extends Model
     {
         return $this->hasOne(Inventory::class, 'variant_id');
     }
+    public function ordereditems()
+    {
+    return $this->hasMany(OrderedItem::class);
+    }
 }

@@ -17,7 +17,7 @@ return new class extends Migration {
                 ->constrained('user_addresses'); // References addresses.address_id
             $table->enum('status', ['pending', 'paid', 'shipped', 'delivered', 'cancelled'])
                 ->default('pending');
-            $table->decimal('total_amount', 12, 2);
+            $table->decimal('total_amount', 12, 2)->nullable;
             $table->timestamps();
         });
     }
