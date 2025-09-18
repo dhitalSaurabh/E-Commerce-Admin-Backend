@@ -1,14 +1,17 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderedItemController;
 use App\Http\Controllers\OTPController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductVarientController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserAddressController;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\AuthAdminController;
@@ -108,6 +111,37 @@ Route::prefix('customer')->group((function () {
             Route::post('orderedItems', [OrderedItemController::class, 'store']);
             Route::put('orderedItems/{orderedItem}', [OrderedItemController::class, 'update']);
             Route::delete('orderedItems/{orderedItem}', [OrderedItemController::class, 'destroy']);
+        });
+        // Cart Item
+        Route::get('carts', [CartController::class, 'index']);
+        Route::get('carts/{cart}', [CartController::class, 'show']);
+
+        // Protected routes
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::post('carts', [CartController::class, 'store']);
+            Route::put('carts/{cart}', [CartController::class, 'update']);
+            Route::delete('carts/{cart}', [CartController::class, 'destroy']);
+        });
+         // Payments
+        Route::get('payments', [PaymentController::class, 'index']);
+        Route::get('payments/{payment}', [PaymentController::class, 'show']);
+
+        // Protected routes
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::post('payments', [PaymentController::class, 'store']);
+            Route::put('payments/{payment}', [PaymentController::class, 'update']);
+            Route::delete('payments/{payment}', [PaymentController::class, 'destroy']);
+        });
+
+         // Reviews
+        Route::get('reviews', [ReviewController::class, 'index']);
+        Route::get('reviews/{review}', [ReviewController::class, 'show']);
+
+        // Protected routes
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::post('reviews', [ReviewController::class, 'store']);
+            Route::put('reviews/{review}', [ReviewController::class, 'update']);
+            Route::delete('reviews/{review}', [ReviewController::class, 'destroy']);
         });
     });
     // Customer Verify OTP

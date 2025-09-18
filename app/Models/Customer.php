@@ -55,5 +55,16 @@ class Customer extends Model
     {
         return $this->hasMany(OrderedItem::class);
     }
-
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }

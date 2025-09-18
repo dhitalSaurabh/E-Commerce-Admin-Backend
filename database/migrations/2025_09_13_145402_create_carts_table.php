@@ -17,7 +17,7 @@ return new class extends Migration
                   ->constrained('customers')
                   ->onDelete('cascade'); // ON DELETE CASCADE
             $table->foreignId('variant_id')
-                  ->constrained('product_variants'); // References product_variants.variant_id
+                  ->constrained('product_varients'); // References product_variants.variant_id
             $table->integer('quantity');
             $table->timestamp('added_at')->useCurrent(); // Default CURRENT_TIMESTAMP
             $table->timestamps();
