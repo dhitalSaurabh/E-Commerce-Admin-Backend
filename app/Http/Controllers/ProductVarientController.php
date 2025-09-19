@@ -25,17 +25,21 @@ class ProductVarientController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $fields = $request->validate([
             // 'user_id' => 'required|exists:users,id',
             'product_id' => 'required|exists:products,id',
             'size' => 'nullable|string|max:50',
             'color' => 'nullable|string|max:50',
             'material' => 'nullable|string|max:100',
-            'additional_price' => 'nullable|numeric',
+            'price' => 'nullable|numeric',
             'sku' => 'nullable|string|max:100|unique:product_varients,sku',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
-
-        $productVarient = $request->user()->productVarient()->create($validated);
+if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('variant_images', 'public');
+            $fields['image'] = url('storage/' . $imagePath);
+        }
+        $productVarient = $request->user()->productVarient()->create($fields);
 
         return response()->json($productVarient, 201);
     }
@@ -58,17 +62,21 @@ class ProductVarientController extends Controller
     {
         // $productVarient = ProductVarient::findOrFail($id);
 
-        $validated = $request->validate([
+        $fields = $request->validate([
             // 'user_id' => 'sometimes|required|exists:users,id',
             'product_id' => 'nullable|exists:products,id',
             'size' => 'nullable|string|max:50',
             'color' => 'nullable|string|max:50',
             'material' => 'nullable|string|max:100',
-            'additional_price' => 'nullable|numeric',
+            'price' => 'nullable|numeric',
             'sku' => 'nullable|string|max:100|unique:product_varients,sku,',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
-
-        $productVarient->update($validated);
+if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('variant_images', 'public');
+            $fields['image'] = url('storage/' . $imagePath);
+        }
+        $productVarient->update($fields);
 
         return response()->json([
             'message' => 'Product varient updated successfully',

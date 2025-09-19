@@ -15,8 +15,9 @@ class ProductVarient extends Model
         'size',
         'color',
         'material',
-        'additional_price',
+        'price',
         'sku',
+        'image',
     ];
 
     // Relationships

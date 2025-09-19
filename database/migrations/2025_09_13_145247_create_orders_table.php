@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
             $table->foreignId('user_address_id')
-                ->constrained('user_addresses'); // References addresses.address_id
+                ->constrained('user_addresses')->onDelete('cascade'); // References addresses.address_id
             $table->enum('status', ['pending', 'paid', 'shipped', 'delivered', 'cancelled'])
                 ->default('pending');
             $table->decimal('total_amount', 12, 2)->nullable;

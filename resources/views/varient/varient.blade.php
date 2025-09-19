@@ -109,7 +109,8 @@
     </div>
     <script src="{{ asset('js/varients-api.js')}}"></script>
     <script src="{{ asset('js/drop-products.js')}}"></script>
-    {{-- <script src="{{ asset('js/load-clothes.js')}}"></script> --}}
+    {{--
+    <script src="{{ asset('js/load-clothes.js')}}"></script> --}}
 
     <script>
         function openDialog() {
@@ -152,6 +153,8 @@
 
                 // price: document.getElementById("editPrice").value,
             };
+            const imageFile = document.getElementById("editImage").files[0];
+            if (imageFile) updatedData.image = imageFile;
 
             // const imageFile = document.getElementById("editImage").files[0];
             // if (imageFile) updatedData.image = imageFile;

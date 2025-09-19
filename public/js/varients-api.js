@@ -32,8 +32,9 @@ async function loadVarients() {
                 size,
                 color,
                 material,
-                additional_price,
+                price,
                 sku,
+                image,
                 created_at,
                 product
             } = variant;
@@ -41,9 +42,9 @@ async function loadVarients() {
             const formattedDate = new Date(created_at).toLocaleDateString('en-GB'); // dd/mm/yyyy
             const productId = product?.id ?? 0;
             const productName = product?.name ?? 'Unnamed';
-            const productPrice = product?.price ?? 'N/A';
+            const productPrice = price ?? 'N/A';
             const productBrand = product?.brand ?? 'N/A';
-            const productImage = product?.image ?? '';
+            const productImage = image ?? '';
             const categoryName = product?.category?.name ?? 'Uncategorized';
 
             const card = document.createElement('div');
@@ -58,7 +59,7 @@ async function loadVarients() {
                     <li><strong>Category:</strong> ${escapeHtml(categoryName)}</li>
                     <li><strong>Brand:</strong> ${escapeHtml(productBrand)}</li>
                     <li><strong>Base Price:</strong> ₹${productPrice}</li>
-                    <li><strong>Variant Price (Extra):</strong> Rs.${additional_price}</li>
+                    <li><strong>Variant Price (Extra):</strong> Rs.${price}</li>
                     <li><strong>SKU:</strong> ${escapeHtml(sku)}</li>
                     <li><strong>Size(s):</strong> ${escapeHtml(size)}</li>
                     <li><strong>Color(s):</strong> ${escapeHtml(color)}</li>
@@ -69,7 +70,7 @@ async function loadVarients() {
                 <div class="mt-3 flex gap-2">
                     <button
                         class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
-                        onclick="openEditDialog(${id},${productId},'${escapeHtml(size)}','${escapeHtml(color)}','${escapeHtml(material)}',${additional_price}, '${escapeHtml(sku)}')"
+                        onclick="openEditDialog(${id},${productId},'${escapeHtml(size)}','${escapeHtml(color)}','${escapeHtml(material)}',${price}, '${escapeHtml(sku)}')"
                     >Edit</button>
                     <button
                         class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"

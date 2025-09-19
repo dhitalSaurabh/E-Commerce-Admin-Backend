@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -14,16 +13,16 @@ return new class extends Migration
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')
-                  ->constrained('customers')
-                  ->onDelete('cascade'); // ON DELETE CASCADE
+                ->constrained('customers')
+                ->onDelete('cascade'); // ON DELETE CASCADE
             $table->foreignId('variant_id')
-                  ->constrained('product_varients'); // References product_variants.variant_id
+                ->constrained('product_varients')->onDelete('cascade'); // References product_variants.variant_id
             $table->integer('quantity');
             $table->timestamp('added_at')->useCurrent(); // Default CURRENT_TIMESTAMP
             $table->timestamps();
         });
     }
-// CREATE TABLE cart_items (
+    // CREATE TABLE cart_items (
 //     cart_item_id BIGINT AUTO_INCREMENT PRIMARY KEY,
 //     user_id BIGINT NOT NULL,
 //     variant_id BIGINT NOT NULL,

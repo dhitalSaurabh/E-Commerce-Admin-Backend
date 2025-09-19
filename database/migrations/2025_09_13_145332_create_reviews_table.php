@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
             $table->foreignId('product_id')
-                ->constrained('products'); // References products.product_id
+                ->constrained('products')->onDelete('cascade'); // References products.product_id
             $table->integer('rating')->unsigned(); // rating between 1 and 5
             $table->text('comment')->nullable();
             $table->timestamps();

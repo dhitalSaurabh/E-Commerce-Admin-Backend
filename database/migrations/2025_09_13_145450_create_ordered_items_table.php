@@ -16,7 +16,7 @@ return new class extends Migration {
                 ->constrained('orders')
                 ->onDelete('cascade'); // ON DELETE CASCADE
             $table->foreignId('variant_id')
-                ->constrained('product_varients'); // References product_variants.variant_id
+                ->constrained('product_varients')->onDelete('cascade'); // References product_variants.variant_id
             $table->integer('quantity');
             $table->decimal('price');
             $table->timestamps();

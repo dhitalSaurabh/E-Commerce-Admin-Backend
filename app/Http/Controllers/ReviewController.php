@@ -54,7 +54,6 @@ class ReviewController extends Controller
      */
     public function update(Request $request, review $review)
     {
-        
          $fields = $request->validate([
             // 'customer_id' => 'nullable|exists:customers,id',
             'product_id' => 'nullable|exists:products,id',
