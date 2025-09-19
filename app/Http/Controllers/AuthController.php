@@ -13,7 +13,7 @@ class AuthController extends Controller
         $fields = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:customers,email',
-            'mobile_number' => 'required|string|unique:customers,mobile_number',
+            'mobile_number' => 'nullable|string|unique:customers,mobile_number',
             'password' => 'required|string|min:8|confirmed',
         ]);
         $fields['password'] = Hash::make($fields['password']);

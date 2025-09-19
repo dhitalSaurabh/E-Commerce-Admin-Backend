@@ -52,8 +52,24 @@ Route::get('/inventory/inventories', function () {
 Route::get('/auth', function () {
     return view('layouts.auth');
 });
+
 Route::get('/app', function () {
     return view('layouts.app');
+});
+
+// User Routes 
+Route::get('/', function () {
+    return view('layouts.userdash');
+});
+Route::get('/authuser', function () {
+    return view('layouts.authuser');
+});
+
+Route::get('/authuser/login', function () {
+    return view('users.login');
+});
+Route::get('/authuser/register', function () {
+    return view('users.register');
 });
 // Route::middleware(['auth:sanctum'])->get('/dashboard', function () {
 //     return view('dashboard');

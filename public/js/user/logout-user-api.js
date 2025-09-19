@@ -1,14 +1,14 @@
 
 async function userLogout() {
     try {
-        const auth_token = localStorage.getItem('auth_token');
+        const auth_token = localStorage.getItem('token');
         if (!auth_token) {
             console.warn('No token found. Redirecting.');
-            window.location.href = '/auth/login';
+            window.location.href = '/';
             return;
         }
 
-        const response = await fetch("http://127.0.0.1:8000/api/admin/logout", {
+        const response = await fetch("http://127.0.0.1:8000/api/customer/logout", {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -18,9 +18,9 @@ async function userLogout() {
         });
 
         if (response.ok) {
-            localStorage.removeItem('auth_token');
+            localStorage.removeItem('token');
             localStorage.setItem('logout_message', 'You have been logged out.');
-            window.location.href = '/auth/login';
+            window.location.href = '/';
         } else {
             const errorData = await response.json();
             console.error('Logout failed:', errorData);

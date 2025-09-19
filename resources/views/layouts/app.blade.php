@@ -39,7 +39,7 @@
             <strong class="block mt-4 mb-2">Payments</strong>
             <a href="{{ url('/payments/status') }}" class="block p-2 rounded hover:bg-gray-700">Payment Status</a>
 
-           
+
         </div>
     </aside>
 
@@ -48,26 +48,28 @@
     <!-- Main Content -->
     <main class="flex-1 p-6 bg-gray-100 w-full">
         <div class="flex justify-end mb-4">
-        <button id="logoutBtn" onclick="userLogout()" class="p-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition duration-300">
-            Logout
-        </button>
-{{-- </div> --}}
+            <button id="logoutBtn" onclick="userLogout()"
+                class="p-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition duration-300">
+                Logout
+            </button>
+            {{--
+        </div> --}}
         <!-- Menu Button -->
         <div class="flex justify-end md:hidden mb-4">
             <button id="menuBtn" class="p-2 bg-gray-900 text-white rounded">
                 ☰ Menu
             </button>
         </div>
-    </div>
-        
-@hasSection ('content')
-    @yield('content')
-@else
-   <h1>Welcome to the E-commerce Admin Dashboard</h1>
-            <p>Use the sidebar to manage products, orders, users, and more.</p> 
-@endif
+        </div>
+
+        @hasSection ('content')
+            @yield('content')
+        @else
+            <h1>Welcome to the E-commerce Admin Dashboard</h1>
+            <p>Use the sidebar to manage products, orders, users, and more.</p>
+        @endif
     </main>
-<!-- Top Bar -->
+    <!-- Top Bar -->
 
     <script>
         const sidebar = document.getElementById('sidebar');
@@ -85,52 +87,37 @@
         });
     </script>
     <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const successMessage = localStorage.getItem('login_success');
+        document.addEventListener('DOMContentLoaded', function () {
+            const successMessage = localStorage.getItem('login_success');
 
-    if (successMessage) {
-        // Show the notification
-        showPopup(successMessage);
+            if (successMessage) {
+                // Show the notification
+                showPopup(successMessage, "success");
 
-        // Remove it so it doesn’t show again on refresh
-        localStorage.removeItem('login_success');
-    }
+                // Remove it so it doesn’t show again on refresh
+                localStorage.removeItem('login_success');
+            }
 
-    function showPopup(message) {
-        const notification = document.createElement('div');
-        notification.innerText = message;
-        notification.className = 'fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50 transition-opacity duration-500 opacity-0';
-        document.body.appendChild(notification);
 
-        // Fade in
-        setTimeout(() => {
-            notification.classList.add('opacity-100');
-        }, 10);
+        });
+    </script>
+    <script>
+        // public/js/auth.js
 
-        // Fade out after 3s
-        setTimeout(() => {
-            notification.classList.remove('opacity-100');
-            notification.classList.add('opacity-0');
-            setTimeout(() => notification.remove(), 500);
-        }, 3000);
-    }
-});
-</script>
-<script>
-    // public/js/auth.js
+        document.addEventListener('DOMContentLoaded', function () {
+            const token = localStorage.getItem('auth_token');
 
-document.addEventListener('DOMContentLoaded', function () {
-    const token = localStorage.getItem('auth_token');
+            if (!token) {
+                // Not logged in, redirect to login page
+                window.location.href = '/auth/login';
+            }
 
-    if (!token) {
-        // Not logged in, redirect to login page
-        window.location.href = '/auth/login';
-    }
+            // Optional: You can add token validation via API call here if needed
+        });
+    </script>
+    <script src="{{ asset('js/logout-api.js')}}"></script>
+    <script src="{{ asset('js/showpopup.js')}}"></script>
 
-    // Optional: You can add token validation via API call here if needed
-});
-</script>
-<script src="{{ asset('js/logout-api.js')}}"></script>
 </body>
 
 </html>

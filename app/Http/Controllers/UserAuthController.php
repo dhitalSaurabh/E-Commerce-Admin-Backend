@@ -15,7 +15,7 @@ class UserAuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
-           ]);
+        ]);
         $fields['password'] = Hash::make($fields['password']);
         $user = User::create($fields);
 
@@ -23,7 +23,7 @@ class UserAuthController extends Controller
 
         return response()->json([
             'user' => $user,
-            'token' => $token->plainTextToken,
+            // 'token' => $token->plainTextToken,
         ]);
     }
 
@@ -40,21 +40,24 @@ class UserAuthController extends Controller
         if (!Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'Invalid credentials.'], 401);
         }
-        $token = $user->createToken($user->name);
-        $accessToken = $token->accessToken;
+        $token = $user->createToken($user->name)->plainTextToken;
+        // $accessToken = $token->accessToken;
 
-        $accessToken->expires_at = now()->addDay();
-        $token->accessToken->save();
+        // $accessToken->expires_at = now()->addDay();
+        // $token->accessToken->save();
         return response()->json([
             'user' => $user,
             'token' => $token,
-            'expires_at' => $accessToken->expires_at,
+            // 'expires_at' => $accessToken->expires_at,
         ]);
     }
 
     public function logout(Request $request)
     {
         $request->user()->tokens()->delete();
-        return response()->json(['message' => 'User Logged out']);
-    } 
+        return response()->json([
+            'message' => 'User Logged out',
+            'token' => 'destroyed',
+        ]);
+    }
 }

@@ -51,8 +51,6 @@
             animation: gradient 15s ease infinite;
         } */
     </style>
-
-
 </head>
 
 <body>
@@ -70,27 +68,6 @@
 
 
     {{-- </div> --}}
-
-    {{--
-    </x-layout> --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const successMessage = localStorage.getItem('register_success');
-            const logoutMessage = localStorage.getItem('logout_message');
-            if (successMessage) {
-                // Show the notification
-                showPopup(successMessage, "success");
-                // Remove it so it doesn’t show again on refresh
-                localStorage.removeItem('register_success');
-            } else if (logoutMessage) {
-                showPopup(successMessage, "success");
-                localStorage.removeItem('logout_message');
-            }
-            //    showPopup(successMessage, "success");
-
-        });
-    </script>
-    <script src="{{ asset('js/showpopup.js')}}"></script>
 </body>
 
 </html>
