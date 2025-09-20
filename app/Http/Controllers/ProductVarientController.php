@@ -35,7 +35,7 @@ class ProductVarientController extends Controller
             'sku' => 'nullable|string|max:100|unique:product_varients,sku',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
-if ($request->hasFile('image')) {
+        if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('variant_images', 'public');
             $fields['image'] = url('storage/' . $imagePath);
         }
@@ -55,6 +55,16 @@ if ($request->hasFile('image')) {
         ]);
     }
 
+    public function getByProductId($productId)
+    {
+        $variants = ProductVarient::with(['product.category'])
+        ->where('product_id', $productId)->get();
+         return response()->json([
+        'message' => 'Product Variants Retrieved',
+        'data' => $variants,
+    ]);
+    }
+
     /**
      * Update the specified resource in storage.
      */
@@ -72,7 +82,7 @@ if ($request->hasFile('image')) {
             'sku' => 'nullable|string|max:100|unique:product_varients,sku,',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
-if ($request->hasFile('image')) {
+        if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('variant_images', 'public');
             $fields['image'] = url('storage/' . $imagePath);
         }

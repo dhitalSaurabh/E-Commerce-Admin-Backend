@@ -4,7 +4,7 @@ async function userLogout() {
         const auth_token = localStorage.getItem('token');
         if (!auth_token) {
             console.warn('No token found. Redirecting.');
-            window.location.href = '/';
+            // window.location.href = '/';
             return;
         }
 

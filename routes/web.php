@@ -59,6 +59,12 @@ Route::get('/app', function () {
 
 // User Routes 
 Route::get('/', function () {
+    return view('dashboard.products');
+});
+Route::get('/variants/{id}', function ($id) {
+    return view('dashboard.variants');
+});
+Route::get('/userdash', function () {
     return view('layouts.userdash');
 });
 Route::get('/authuser', function () {

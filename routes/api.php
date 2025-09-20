@@ -57,6 +57,7 @@ Route::prefix('admin')->group((function () {
     // Product Varients Creation
     Route::get('productVarients', [ProductVarientController::class, 'index']);
     Route::get('productVarients/{productVarient}', [ProductVarientController::class, 'show']);
+    Route::get('getByProductId/{productId}', [ProductVarientController::class, 'getByProductId']);
 
     // Protected routes
     Route::middleware('auth:sanctum')->group(function () {
@@ -122,7 +123,7 @@ Route::prefix('customer')->group((function () {
             Route::put('carts/{cart}', [CartController::class, 'update']);
             Route::delete('carts/{cart}', [CartController::class, 'destroy']);
         });
-         // Payments
+        // Payments
         Route::get('payments', [PaymentController::class, 'index']);
         Route::get('payments/{payment}', [PaymentController::class, 'show']);
 
@@ -133,7 +134,7 @@ Route::prefix('customer')->group((function () {
             Route::delete('payments/{payment}', [PaymentController::class, 'destroy']);
         });
 
-         // Reviews
+        // Reviews
         Route::get('reviews', [ReviewController::class, 'index']);
         Route::get('reviews/{review}', [ReviewController::class, 'show']);
 

@@ -19,11 +19,11 @@ class AuthController extends Controller
         $fields['password'] = Hash::make($fields['password']);
         $user = Customer::create($fields);
 
-        $token = $user->createToken($user->name);
+        // $token = $user->createToken($user->name);
 
         return response()->json([
             'customer' => $user,
-            'token' => $token->plainTextToken,
+            // 'token' => $token->plainTextToken,
         ]);
     }
     public function login(Request $request)
@@ -44,15 +44,15 @@ class AuthController extends Controller
         //     return response()->json(['message' => 'Mobile number is not verified.'], 403);
         // }
 
-        $token = $user->createToken($user->name);
-        $accessToken = $token->accessToken;
+        $token = $user->createToken($user->name)->plainTextToken;
+        // $accessToken = $token->accessToken;
 
-        $accessToken->expires_at = now()->addDay();
-        $token->accessToken->save();
+        // $accessToken->expires_at = now()->addDay();
+        // $token->accessToken->save();
         return response()->json([
             'customer' => $user,
             'token' => $token,
-            'expires_at' => $accessToken->expires_at,
+            // 'expires_at' => $accessToken->expires_at,
         ]);
     }
 

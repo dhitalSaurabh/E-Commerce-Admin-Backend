@@ -32,9 +32,16 @@ class UserAddressController extends Controller
             'state' => 'nullable|string|max:100',
             'is_default' => 'boolean',
         ]);
+        $user = $request->user();
+        // ❌ Block creation if address already exists
+        if ($user->useraddress) {
+            return response()->json([
+                'message' => 'User already has an address.',
+            ], 409); // 409 Conflict
+        }
 
         $userAddress = $request->user()->useraddress()->create($fields);
- // Make sure only one address can be marked as the default
+        // Make sure only one address can be marked as the default
         if ($userAddress->is_default) {
             UserAddress::where('customer_id', Auth::id())
                 ->where('id', '!=', $address->id)
@@ -63,7 +70,7 @@ class UserAddressController extends Controller
      */
     public function update(Request $request, UserAddress $userAddress)
     {
-         $fields = $request->validate([
+        $fields = $request->validate([
             'full_name' => 'nullable|string|max:150',
             'phone' => 'nullable|string|max:20',
             'city' => 'nullable|string|max:100',
@@ -72,7 +79,7 @@ class UserAddressController extends Controller
         ]);
         $userAddress->update($fields);
 
- // Make sure only one address can be marked as the default
+        // Make sure only one address can be marked as the default
         if ($userAddress->is_default) {
             UserAddress::where('customer_id', Auth::id())
                 ->where('id', '!=', $address->id)

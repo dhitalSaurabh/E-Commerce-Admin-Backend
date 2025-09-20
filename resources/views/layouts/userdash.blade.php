@@ -16,9 +16,16 @@
             {{ session('error') }}
         </div>
     @endif
-    <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+     @hasSection ('content')
+            @yield('content')
+        @else
+            <h1>Welcome to the E-commerce Admin Dashboard</h1>
+            <p>Use the sidebar to manage products, orders, users, and more.</p>
+        @endif
+    {{-- <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <!-- JavaScript will populate clothes here -->
-    </div>
+    </div> --}}
 
 
     <script>
