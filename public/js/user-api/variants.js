@@ -8,7 +8,7 @@ function getProductIdFromUrl() {
 
 async function loadVarients(productId) {
     const container = document.getElementById('varientsGrid');
-    // const productId = 
+    // const productId =
     if (!container) return;
     //  variantId =
     try {
@@ -89,7 +89,7 @@ async function loadVarients(productId) {
                 class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-lg
                        shadow hover:bg-yellow-600 hover:shadow-md
                        transition-all duration-300 transform hover:scale-105"
-           onClick="openDialog()" >
+           onClick="openDialog(${escapeHtml(id)}, '${escapeHtml(productName)}',${escapeHtml(price)})" >
                 Order Now
             </button>
         </a>

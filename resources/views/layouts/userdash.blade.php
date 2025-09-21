@@ -9,7 +9,13 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
-<body class="flex">
+<body>
+    <div class="flex justify-end mb-4">
+        <button id="logoutBtn" onclick="userLogout()"
+            class="p-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition duration-300">
+            Logout
+        </button>
+    </div>
     {{-- <h2>User Dash</h2> --}}
     @if(session('error'))
         <div class="bg-red-100 text-red-700 p-3 mb-4 rounded">
@@ -17,12 +23,12 @@
         </div>
     @endif
 
-     @hasSection ('content')
-            @yield('content')
-        @else
-            <h1>Welcome to the E-commerce Admin Dashboard</h1>
-            <p>Use the sidebar to manage products, orders, users, and more.</p>
-        @endif
+    @hasSection ('content')
+        @yield('content')
+    @else
+        <h1>Welcome to the E-commerce Admin Dashboard</h1>
+        <p>Use the sidebar to manage products, orders, users, and more.</p>
+    @endif
     {{-- <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <!-- JavaScript will populate clothes here -->
     </div> --}}
@@ -47,10 +53,10 @@
         document.addEventListener('DOMContentLoaded', function () {
             const token = localStorage.getItem('token');
 
-            if (!token) {
-                // Not logged in, redirect to login page
-                window.location.href = '/';
-            }
+            // if (!token) {
+            //     // Not logged in, redirect to login page
+            //     window.location.href = '/';
+            // }
 
             // Optional: You can add token validation via API call here if needed
         });

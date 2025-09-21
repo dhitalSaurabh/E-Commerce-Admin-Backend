@@ -19,7 +19,28 @@ class UserAddressController extends Controller
             'data' => UserAddress::with(['customer'])->get(),
         ]);
     }
+    public function showDetailsToAuthUsers()
+    {
+        $user = \Illuminate\Support\Facades\Auth::user(); // Get the currently authenticated user
+        $userAddress = UserAddress::where('customer_id', $user->id)->with('customer')->first();
 
+        if ($userAddress) {
+            return response()->json([
+                'message' => "User address retrieved successfully",
+                'data' => [
+                    'addressFilled' => true,
+                    'address' => $userAddress,
+                ],
+            ]);
+        } else {
+            return response()->json([
+                'message' => "No address found for this user",
+                'data' => [
+                    'addressFilled' => false,
+                ],
+            ], 404); // 404 Not Found
+        }
+    }
     /**
      * Store a newly created resource in storage.
      */

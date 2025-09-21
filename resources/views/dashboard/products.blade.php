@@ -95,13 +95,34 @@
         <!-- JavaScript will populate clothes here -->
     </div>
     <script>
-        function openDialog() {
-            document.getElementById('userAddressDialog').style.display = 'flex';
-        }
+        // function checkIfUserLoggedIn() {
+        //     const auth_token = localStorage.getItem('token');
+        //     if (!auth_token) {
+        //         window.location.href = 'authuser/login';
+        //         return false;
+        //     }
+        //     return true;
+        // }
 
-        function closeDialog() {
-            document.getElementById('userAddressDialog').style.display = 'none';
-        }
+        // async function openDialog() {
+        //     if (!checkIfUserLoggedIn()) {
+        //         return;
+        //     }
+
+        //     const hasAddress = await checkUserAddress();
+        //     if (!hasAddress) {
+        //         document.getElementById('userAddressDialog').style.display = 'flex';
+        //     } else if (hasAddress) {
+        //         window.location.href = '/order'
+        //     } else {
+        //         console.log("User has already filled the address form.");
+
+        //     }
+        // }
+
+        // function closeDialog() {
+        //     document.getElementById('userAddressDialog').style.display = 'none';
+        // }
     </script>
     <script src="{{ asset('js/user-api/user-address-api.js')}}"></script>
 

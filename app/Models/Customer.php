@@ -51,9 +51,13 @@ class Customer extends Model
     {
         return $this->hasMany(Order::class);
     }
-    public function ordereditems()
+    // public function ordereditems()
+    // {
+    //     return $this->hasMany(OrderedItem::class);
+    // }
+    public function orderedItems()
     {
-        return $this->hasMany(OrderedItem::class);
+        return $this->hasManyThrough(OrderedItem::class, Order::class);
     }
     public function carts()
     {

@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
-use App\Http\Requests\StoreorderRequest;
-use App\Http\Requests\UpdateorderRequest;
+use App\Models\OrderedItem;
+use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -26,18 +27,64 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $fields = $request->validate([
-            'user_address_id' => 'required|exists:user_addresses,id',
-            'status' => 'pending',
-            'total_amount' => 'nullable',
+            // 'user_address_id' => 'required|exists:user_addresses,id',
+            'status' => 'nullable|in:pending,paid,shipped,delivered,cancelled',
+            'total_amount' => 'nullable|numeric',
+            'variant_id' => 'required|exists:product_varients,id',
+            'quantity' => 'required|integer|min:1',
+            'price' => 'required|numeric|min:0',
         ]);
 
-        $order = $request->user()->orders()->create($fields);
+        // 🟨 Start transaction (missing in your code)
+        DB::beginTransaction();
+        $user = $request->user();
 
-        return response()->json([
-            'message' => 'Order created successfully. Add items separately.',
-            'data' => $order,
-        ], 201);
+        // Attempt to get the address
+        $address = $user->useraddress()->first();
+
+        if (!$address) {
+            return response()->json([
+                'message' => 'No address found for this customer.',
+            ], 422);
+        }
+        try {
+            $user = Auth::guard('customer')->user();
+
+            if (!$user) {
+                throw new \Exception('Unauthorized - No customer is logged in.');
+            }
+
+            // ✅ Create order
+            $order = $user->orders()->create([
+                'user_address_id' => $address->id,
+                'status' => $fields['status'] ?? 'pending',
+                'total_amount' => $fields['total_amount'] ?? 0,
+            ]);
+
+            // ✅ Create ordered item
+            $order->orderedItems()->create([
+                'variant_id' => $fields['variant_id'],
+                'quantity' => $fields['quantity'],
+                'price' => $fields['price'],
+                'customer_id' => $request->user()->id,
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Order created successfully.',
+                'data' => $order->load('orderedItems'),
+            ], 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'message' => 'Failed to place order.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
+
 
     /**
      * Display the specified resource.

@@ -84,22 +84,5 @@
             {{ session('error') }}
         </div>
     @endif
-
-<div class="dialog-overlay" id="userAddressDialog">
-        <div class="dialog-box">
-            <button class="close-dialog" onclick="closeDialog()">×</button>
-            <h2>Add Products</h2>
-            <x-product-form.post-products />
-        </div>
-    </div>
-
-    <script>
-        function openDialog() {
-            document.getElementById('userAddressDialog').style.display = 'flex';
-        }
-
-        function closeDialog() {
-            document.getElementById('userAddressDialog').style.display = 'none';
-        }
-        </script>
+<x-user-forms.order />
 @endsection

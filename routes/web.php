@@ -64,6 +64,9 @@ Route::get('/', function () {
 Route::get('/variants/{id}', function ($id) {
     return view('dashboard.variants');
 });
+Route::get('/order', function () {
+    return view('dashboard.order');
+});
 Route::get('/userdash', function () {
     return view('layouts.userdash');
 });

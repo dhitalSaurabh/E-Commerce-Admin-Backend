@@ -89,6 +89,7 @@ Route::prefix('customer')->group((function () {
 
         // Protected routes
         Route::middleware('auth:sanctum')->group(function () {
+                    Route::get('auth/userAddress', [UserAddressController::class, 'showDetailsToAuthUsers']);
             Route::post('userAddress', [UserAddressController::class, 'store']);
             Route::put('userAddress/{userAddress}', [UserAddressController::class, 'update']);
             Route::delete('userAddress/{userAddress}', [UserAddressController::class, 'destroy']);

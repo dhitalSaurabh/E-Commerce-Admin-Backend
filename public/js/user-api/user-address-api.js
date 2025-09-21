@@ -3,7 +3,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('userAddressForm');
     const errorMessage = document.getElementById('errorMessage');
-
+    // if (checkIfUserLoggedIn == false)
     if (!form) return;
 
     form.addEventListener('submit', async function (e) {
@@ -49,3 +49,89 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+// Checks if user already filled the form.
+async function checkUserAddress() {
+    console.log("function called");
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/customer/auth/userAddress', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            }
+        });
+
+        const data = await response.json();
+        console.log("Response" + data);
+        // Assuming the API returns an object with a field 'addressFilled' (boolean)
+        if (data.data && data.data.addressFilled) {
+            return true; // Address already filled
+        } else {
+            return false; // Address not filled
+        }
+    } catch (error) {
+        console.error('Error checking address:', error);
+        return false; // Default to false if error occurs
+    }
+}
+//  / 
+function checkIfUserLoggedIn() {
+    const auth_token = localStorage.getItem('token');
+    if (!auth_token) {
+        window.location.href = 'authuser/login';
+        return false;
+    }
+    return true;
+}
+
+// async function openDialog() {
+//     if (!checkIfUserLoggedIn()) {
+//         return;
+//     }
+
+//     const hasAddress = await checkUserAddress();
+//     if (!hasAddress) {
+//         document.getElementById('userAddressDialog').style.display = 'flex';
+//     } else {
+//         console.log("User has already filled the address form.");
+//         window.location.href = '/order'
+//     }
+// }
+function openDialog(id, productName, price) {
+
+    if (!checkIfUserLoggedIn()) {
+        return;
+    }
+    // Example condition — replace this with real logic (e.g., from server or JS state)
+    const hasAddress = true; // or false
+
+    document.getElementById('dialogContainer').classList.remove('hidden');
+
+    if (hasAddress) {
+        document.getElementById('dialogA').classList.remove('hidden');
+        document.getElementById('dialogB').classList.add('hidden');
+    } else {
+        document.getElementById('dialogA').classList.add('hidden');
+        document.getElementById('dialogB').classList.remove('hidden');
+    }
+    document.getElementById('variant_id').value = id;
+    document.getElementById('price').value = price;
+    const quantityInput = document.getElementById('quantity');
+    const totalAmountInput = document.getElementById('total_amount');
+
+    // Initialize total
+    const initialQty = parseInt(quantityInput.value) || 0;
+    totalAmountInput.value = initialQty * price;
+
+    // Live update on quantity change
+    quantityInput.oninput = function () {
+        const q = parseInt(this.value) || 0;
+        totalAmountInput.value = q * price;
+    };
+}
+
+function closeDialog() {
+    document.getElementById('dialogContainer').classList.add('hidden');
+    document.getElementById('dialogA').classList.add('hidden');
+    document.getElementById('dialogB').classList.add('hidden');
+}
+
