@@ -119,6 +119,14 @@
                 <p>You need to add an address before placing the order.</p>
                 <x-user-forms.useradress />
             </div>
+
+        </div>
+    </div>
+     <div class="dialog-overlay" id="addCartDialog">
+        <div class="dialog-box">
+            <button class="close-dialog" onclick="closeDialog()">×</button>
+            <h2>Add to cart</h2>
+            <x-cart-form.add-cart />
         </div>
     </div>
     <!--  grid -->
@@ -128,5 +136,7 @@
     <script src="{{ asset('js/user-api/user-address-api.js')}}"></script>
     <script src="{{ asset('js/user-api/variants.js')}}"></script>
     <script src="{{ asset('js/user-api/order.js')}}"></script>
+    <script src="{{ asset('js/user-api/cart-user.js')}}"></script>
+
 
 @endsection

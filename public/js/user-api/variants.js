@@ -93,6 +93,13 @@ async function loadVarients(productId) {
                 Order Now
             </button>
         </a>
+        <button
+                class="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg
+                       shadow hover:bg-green-600 hover:shadow-md
+                       transition-all duration-300 transform hover:scale-105"
+         onClick="addCart(${escapeHtml(id)})">
+               Add to cart
+            </button>
     </div>
 `;
 
@@ -138,3 +145,14 @@ function escapeHtml(text) {
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
+
+
+// function addCart(id) {
+//     // document.getElementById("addCartDialog").classList.remove("hidden");
+//     document.getElementById('addCartDialog').style.display = 'flex';
+
+
+// }
+// function closeDialog() {
+//     document.getElementById('addCartDialog').style.display = 'none';
+// }
