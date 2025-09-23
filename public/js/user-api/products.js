@@ -67,7 +67,7 @@ async function loadProducts() {
                 <div class="mt-3 flex gap-2 opacity-0 transition-opacity duration-300">
                     <button
                         class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition-all duration-300 transform hover:scale-105"
-                        onclick="openDialog()"
+                        onclick="openOrderDialog(${id})"
                     >Order Now</button>
 
                     <a href="/variants/${id}"><button
@@ -83,7 +83,7 @@ async function loadProducts() {
             // Trigger the fade-in animation after appending the card
             setTimeout(() => {
                 card.classList.add('opacity-100', 'translate-y-0');
-                
+
                 // Animate the inner content (name, description, buttons) to fade in
                 const cardContent = card.querySelectorAll('.transition-opacity');
                 cardContent.forEach(el => el.classList.add('opacity-100'));
@@ -111,4 +111,33 @@ function escapeHtml(text) {
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+}
+
+function checkIfUserLoggedIn() {
+    const auth_token = localStorage.getItem('token');
+    if (!auth_token) {
+        window.location.href = '/authuser/login';
+        return false;
+    }
+    return true;
+}
+
+async function openOrderDialog(id) {
+    if (!checkIfUserLoggedIn()) {
+        return;
+    }
+
+    const hasAddress = await checkUserAddress();
+    if (!hasAddress) {
+        document.getElementById('userAddressDialog').style.display = 'flex';
+    } else if (hasAddress) {
+        localStorage.setItem('select_variants', 'Please select the variant to order now. ');
+        window.location.href = '/variants/' + id;
+    } else {
+        console.log("User has already filled the address form.");
+    }
+}
+
+function closeOrderDialog() {
+    document.getElementById('userAddressDialog').style.display = 'none';
 }

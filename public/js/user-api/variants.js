@@ -82,7 +82,6 @@ async function loadVarients(productId) {
         <li><strong>Material:</strong> ${escapeHtml(material ?? 'N/A')}</li>
         <li><strong>Created At:</strong> ${formattedDate}</li>
     </ul>
-
     <div class="mt-3 flex gap-2">
         <a>
             <button
@@ -100,7 +99,7 @@ async function loadVarients(productId) {
          onClick="addCart(${escapeHtml(id)})">
                Add to cart
             </button>
-    </div>
+            </div>
 `;
 
             // Append and animate
@@ -126,6 +125,12 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.error("Invalid product ID in URL");
         document.getElementById('varientsGrid').innerHTML = "<p class='text-red-500'>Invalid product ID in URL.</p>";
+    }
+const select_variants = localStorage.getItem['select_variants']
+    if(select_variants){
+          // Show the notification
+                showPopup(select_variants, "success");
+                localStorage.removeItem('select_variants');
     }
 });
 

@@ -104,7 +104,7 @@
     <!-- Dialog Container -->
     <div id="dialogContainer" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white p-6 rounded shadow-lg w-full max-w-md relative">
-            <span class="absolute top-2 right-3 text-gray-600 cursor-pointer" onclick="closeDialog()">✕</span>
+            <span class="absolute top-2 right-3 text-gray-600 cursor-pointer" onclick="closeDialogContainer()">✕</span>
 
             <!-- Dialog A -->
             <div id="dialogA" class="hidden">
@@ -122,7 +122,7 @@
 
         </div>
     </div>
-     <div class="dialog-overlay" id="addCartDialog">
+    <div class="dialog-overlay" id="addCartDialog">
         <div class="dialog-box">
             <button class="close-dialog" onclick="closeDialog()">×</button>
             <h2>Add to cart</h2>
@@ -133,10 +133,37 @@
     <div id="varientsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <!-- JavaScript will populate  here -->
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const successMessage = localStorage.getItem('cart_added');
+
+            if (successMessage) {
+                // Show the notification
+                showPopup(successMessage, "success");
+
+                // Remove it so it doesn’t show again on refresh
+                localStorage.removeItem('cart_added');
+            }
+
+            const select_variants = localStorage.getItem['select_variants']
+            if (select_variants) {
+                // Show the notification
+                showPopup(select_variants, "success");
+                localStorage.removeItem('select_variants');
+            }
+
+
+        });
+
+        function closeDialog() {
+            document.getElementById('addCartDialog').style.display = 'none';
+        }
+
+    </script>
+
     <script src="{{ asset('js/user-api/user-address-api.js')}}"></script>
     <script src="{{ asset('js/user-api/variants.js')}}"></script>
     <script src="{{ asset('js/user-api/order.js')}}"></script>
     <script src="{{ asset('js/user-api/cart-user.js')}}"></script>
-
-
+    <script src="{{ asset('js/showpopup.js')}}"></script>
 @endsection

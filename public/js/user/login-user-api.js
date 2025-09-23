@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    console.log("Login form found, adding event listener...");
+    // console.log("Login form found, adding event listener...");
 
     form.addEventListener('submit', async function (e) {
         e.preventDefault();

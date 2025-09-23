@@ -77,25 +77,12 @@ async function checkUserAddress() {
 function checkIfUserLoggedIn() {
     const auth_token = localStorage.getItem('token');
     if (!auth_token) {
-        window.location.href = 'authuser/login';
+        window.location.href = '/authuser/login';
         return false;
     }
     return true;
 }
 
-// async function openDialog() {
-//     if (!checkIfUserLoggedIn()) {
-//         return;
-//     }
-
-//     const hasAddress = await checkUserAddress();
-//     if (!hasAddress) {
-//         document.getElementById('userAddressDialog').style.display = 'flex';
-//     } else {
-//         console.log("User has already filled the address form.");
-//         window.location.href = '/order'
-//     }
-// }
 function openDialog(id, productName, price) {
 
     if (!checkIfUserLoggedIn()) {
@@ -129,7 +116,7 @@ function openDialog(id, productName, price) {
     };
 }
 
-function closeDialog() {
+function closeDialogContainer() {
     document.getElementById('dialogContainer').classList.add('hidden');
     document.getElementById('dialogA').classList.add('hidden');
     document.getElementById('dialogB').classList.add('hidden');

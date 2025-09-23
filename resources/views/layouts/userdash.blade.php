@@ -10,10 +10,16 @@
 </head>
 
 <body>
-    <div class="flex justify-end mb-4">
+    {{-- <div class="flex justify-end mb-4">
         <button id="logoutBtn" onclick="userLogout()"
             class="p-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition duration-300">
             Logout
+        </button>
+    </div> --}}
+    <div class="flex justify-end mb-4">
+        <button id="authBtn" onclick="handleAuthButton()"
+            class="p-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition duration-300">
+            <!-- Button text will change dynamically -->
         </button>
     </div>
     {{-- <h2>User Dash</h2> --}}
@@ -52,14 +58,24 @@
         // public/js/auth.js
         document.addEventListener('DOMContentLoaded', function () {
             const token = localStorage.getItem('token');
+       
+       const authBtn = document.getElementById('authBtn');
 
-            // if (!token) {
-            //     // Not logged in, redirect to login page
-            //     window.location.href = '/';
-            // }
-
-            // Optional: You can add token validation via API call here if needed
+            if (token) {
+                authBtn.textContent = 'Logout';
+                authBtn.setAttribute('onclick', 'userLogout()');
+            } else {
+                authBtn.textContent = 'Login';
+                authBtn.setAttribute('onclick', 'redirectToLogin()');
+            }
         });
+
+        function redirectToLogin() {
+            window.location.href = '/authuser/login';
+        }
+
+
+
     </script>
     <script src="{{ asset('js/showpopup.js')}}"></script>
     <script src="{{ asset('js/user-api/products.js')}}"></script>

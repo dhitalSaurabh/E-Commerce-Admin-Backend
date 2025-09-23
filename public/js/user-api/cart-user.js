@@ -38,10 +38,11 @@ async function PostCartsToServer(id) {
                 errorMessage.textContent = responseData.message || 'Error submitting form.';
                 console.error('Validation Errors:', responseData.errors);
             } else {
-                alert('Cart added Successfully');
+                // alert('Cart added Successfully');
+                 localStorage.setItem('cart_added', 'Cart added successfully.');
                 form.reset();
                 errorMessage.textContent = '';
-                // window.location.reload();
+                window.location.reload();
             }
 
         } catch (err) {

@@ -86,7 +86,7 @@
     @endif
     <div class="dialog-overlay" id="userAddressDialog">
         <div class="dialog-box">
-            <button class="close-dialog" onclick="closeDialog()">×</button>
+            <button class="close-dialog" onclick="closeOrderDialog()">×</button>
             <h2>Please Add user Address to continue</h2>
             <x-user-forms.useradress />
         </div>
@@ -98,13 +98,13 @@
         // function checkIfUserLoggedIn() {
         //     const auth_token = localStorage.getItem('token');
         //     if (!auth_token) {
-        //         window.location.href = 'authuser/login';
+        //         window.location.href = '/authuser/login';
         //         return false;
         //     }
         //     return true;
         // }
 
-        // async function openDialog() {
+        // async function openOrderDialog(id) {
         //     if (!checkIfUserLoggedIn()) {
         //         return;
         //     }
@@ -113,17 +113,18 @@
         //     if (!hasAddress) {
         //         document.getElementById('userAddressDialog').style.display = 'flex';
         //     } else if (hasAddress) {
-        //         window.location.href = '/order'
+        //         window.location.href = '/variants/'${id}
         //     } else {
         //         console.log("User has already filled the address form.");
-
         //     }
         // }
 
-        // function closeDialog() {
+        // function closeOrderDialog() {
         //     document.getElementById('userAddressDialog').style.display = 'none';
         // }
     </script>
     <script src="{{ asset('js/user-api/user-address-api.js')}}"></script>
+    {{-- <script src="{{ asset('js/user-api/products.js')}}"></script> --}}
+
 
 @endsection
