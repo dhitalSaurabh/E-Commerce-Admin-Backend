@@ -62,8 +62,11 @@ async function checkUserAddress() {
 
         const data = await response.json();
         console.log("Response" + data);
+
         // Assuming the API returns an object with a field 'addressFilled' (boolean)
         if (data.data && data.data.addressFilled) {
+            localStorage.setItem('customer_id', data.id);
+            // console.log(cu)
             return true; // Address already filled
         } else {
             return false; // Address not filled
@@ -122,3 +125,68 @@ function closeDialogContainer() {
     document.getElementById('dialogB').classList.add('hidden');
 }
 
+
+// Loads User Address
+async function loadUserAddress() {
+    const id = localStorage.getItem('customer_id');
+    const token = localStorage.getItem('token');
+
+    console.log(id);
+    const container = document.getElementById('userAddressGrid');
+    if (!container) return;
+
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/api/customer/userAddress/${id}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            }
+        });
+
+        const result = await response.json();
+
+        container.innerHTML = ''; // Clear previous content
+
+        // Validate response
+        if (!result || !result.data) {
+            container.innerHTML = '<p class="text-red-500">User address not found.</p>';
+            return;
+        }
+
+        const address = result.data;
+        const customer = address.customer;
+
+        // Create UI card
+        const card = document.createElement('div');
+        card.className = 'border rounded shadow p-4 bg-white max-w-md';
+
+        card.innerHTML = `
+            <h2 class="text-xl font-bold mb-2">User Address</h2>
+            <p><strong>Customer ID:</strong> ${address.customer_id}</p>
+            <p><strong>Full Name:</strong> ${address.full_name}</p>
+            <p><strong>Phone:</strong> ${address.phone}</p>
+            <p><strong>City:</strong> ${address.city}</p>
+            <p><strong>State:</strong> ${address.state}</p>
+            <hr class="my-3">
+            <h3 class="text-lg font-semibold">Customer Info</h3>
+            <p><strong>Email:</strong> ${customer.email}</p>
+            <p><strong>Email Verified:</strong> ${customer.email_verified_at ? 'Yes' : 'No'}</p>
+            <button id = "editUserInfo" class = "w-full text-center px-6 py-2 text-sm text-white bg-blue-500 hover:bg-blue-800" 
+            onclick="EditUserInfo()"
+            >Edit Information</button>
+        `;
+
+        container.appendChild(card);
+
+    } catch (error) {
+        console.error("Failed to load user address:", error);
+        container.innerHTML = "<p class='text-red-500'>Failed to load user address.</p>";
+    }
+}
+
+// Call the function on DOM load
+document.addEventListener('DOMContentLoaded', () => {
+    loadUserAddress();
+});

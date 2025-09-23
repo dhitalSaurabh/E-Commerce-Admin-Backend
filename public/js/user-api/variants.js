@@ -126,12 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error("Invalid product ID in URL");
         document.getElementById('varientsGrid').innerHTML = "<p class='text-red-500'>Invalid product ID in URL.</p>";
     }
-const select_variants = localStorage.getItem['select_variants']
-    if(select_variants){
-          // Show the notification
-                showPopup(select_variants, "success");
-                localStorage.removeItem('select_variants');
-    }
 });
 
 // Load Category when DOM is ready

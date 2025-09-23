@@ -73,7 +73,32 @@ Route::get('/userdash', function () {
 Route::get('/authuser', function () {
     return view('layouts.authuser');
 });
-
+// User set
+// Carts
+Route::get('/mycarts', function () {
+    return view('dashboard.my-carts');
+});
+//Profile
+Route::get('/profile', function () {
+    return view('dashboard.profile');
+});
+//My orders
+Route::get('/my-orders', function () {
+    return view('dashboard.my-orders');
+});
+//My Payments
+Route::get('/my-payments', function () {
+    return view('dashboard.my-payments');
+});
+//My Reset Password
+Route::get('/user/reset-password', function () {
+    return view('dashboard.reset-password');
+});
+//My orders
+Route::get('/settings', function () {
+    return view('dashboard.settings');
+});
+// USer
 Route::get('/authuser/login', function () {
     return view('users.login');
 });

@@ -109,7 +109,7 @@
             <!-- Dialog A -->
             <div id="dialogA" class="hidden">
                 <h2 class="text-xl font-bold mb-4">Confirm Your Order</h2>
-                <p>You already have an address. Proceed with your order?</p>
+                <p>Proceed with your order.</p>
                 <x-user-forms.order />
             </div>
 
@@ -136,23 +136,18 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const successMessage = localStorage.getItem('cart_added');
-
+            const select_variants = localStorage.getItem('select_variants');
             if (successMessage) {
                 // Show the notification
                 showPopup(successMessage, "success");
 
                 // Remove it so it doesn’t show again on refresh
                 localStorage.removeItem('cart_added');
-            }
-
-            const select_variants = localStorage.getItem['select_variants']
-            if (select_variants) {
+            } else if (select_variants) {
                 // Show the notification
                 showPopup(select_variants, "success");
                 localStorage.removeItem('select_variants');
             }
-
-
         });
 
         function closeDialog() {
@@ -160,10 +155,10 @@
         }
 
     </script>
-
     <script src="{{ asset('js/user-api/user-address-api.js')}}"></script>
     <script src="{{ asset('js/user-api/variants.js')}}"></script>
     <script src="{{ asset('js/user-api/order.js')}}"></script>
     <script src="{{ asset('js/user-api/cart-user.js')}}"></script>
     <script src="{{ asset('js/showpopup.js')}}"></script>
+
 @endsection
