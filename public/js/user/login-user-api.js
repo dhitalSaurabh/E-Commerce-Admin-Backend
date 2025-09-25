@@ -42,10 +42,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
             // ✅ Login successful
-            localStorage.setItem('customer_id', data.customer.id);
-            console.log(data.id);
+            // localStorage.setItem('customer_id', data.customer.id);
+            // console.log(data.id);
             localStorage.setItem('token', data.token);
             localStorage.setItem('login_success', 'You have successfully logged in.');
+            localStorage.setItem('customer_id', data.customer.id);
             window.location.href = "/";
 
         } catch (error) {

@@ -65,7 +65,6 @@ async function checkUserAddress() {
 
         // Assuming the API returns an object with a field 'addressFilled' (boolean)
         if (data.data && data.data.addressFilled) {
-            localStorage.setItem('customer_id', data.id);
             // console.log(cu)
             return true; // Address already filled
         } else {
@@ -134,7 +133,7 @@ async function loadUserAddress() {
     console.log(id);
     const container = document.getElementById('userAddressGrid');
     if (!container) return;
-
+    console.log(id);
     try {
         const response = await fetch(`http://127.0.0.1:8000/api/customer/userAddress/${id}`, {
             method: 'GET',
@@ -173,7 +172,7 @@ async function loadUserAddress() {
             <h3 class="text-lg font-semibold">Customer Info</h3>
             <p><strong>Email:</strong> ${customer.email}</p>
             <p><strong>Email Verified:</strong> ${customer.email_verified_at ? 'Yes' : 'No'}</p>
-            <button id = "editUserInfo" class = "w-full text-center px-6 py-2 text-sm text-white bg-blue-500 hover:bg-blue-800" 
+            <button class = "w-full text-center px-6 py-2 text-sm text-white bg-blue-500 hover:bg-blue-800" 
             onclick="EditUserInfo()"
             >Edit Information</button>
         `;
