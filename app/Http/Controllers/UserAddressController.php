@@ -78,11 +78,28 @@ class UserAddressController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(UserAddress $userAddress)
+    // public function show(UserAddress $userAddress)
+    // {
+    //     return response()->json([
+    //         "message" => "user address retrieved successfully",
+    //         "data" => $userAddress->load(['customer']),
+    //     ], 200);
+    // }
+    public function show()
     {
+        $user = auth()->user();
+        // Assuming 'addresses' is the relationship name (adjust if needed)
+        $userAddress = $user->useraddress()->with('customer')->first();
+
+        if (!$userAddress) {
+            return response()->json([
+                'message' => 'No address found for the authenticated user.'
+            ], 404);
+        }
+
         return response()->json([
-            "message" => "user address retrieved successfully",
-            "data" => $userAddress->load(['customer']),
+            'message' => 'User address retrieved successfully.',
+            'data' => $userAddress->load(['customer']),
         ], 200);
     }
 

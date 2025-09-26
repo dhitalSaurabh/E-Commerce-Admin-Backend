@@ -127,15 +127,15 @@ function closeDialogContainer() {
 
 // Loads User Address
 async function loadUserAddress() {
-    const id = localStorage.getItem('customer_id');
+    // const id = localStorage.getItem('customer_id');
     const token = localStorage.getItem('token');
 
-    console.log(id);
+    // console.log(id);
     const container = document.getElementById('userAddressGrid');
     if (!container) return;
-    console.log(id);
+    // console.log(id);
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/customer/userAddress/${id}`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/customer/userAddress`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -156,7 +156,9 @@ async function loadUserAddress() {
 
         const address = result.data;
         const customer = address.customer;
+        localStorage.setItem('address_id', address.id);
 
+        // console.log(id);
         // Create UI card
         const card = document.createElement('div');
         card.className = 'border rounded shadow p-4 bg-white max-w-md';
@@ -173,7 +175,7 @@ async function loadUserAddress() {
             <p><strong>Email:</strong> ${customer.email}</p>
             <p><strong>Email Verified:</strong> ${customer.email_verified_at ? 'Yes' : 'No'}</p>
             <button class = "w-full text-center px-6 py-2 text-sm text-white bg-blue-500 hover:bg-blue-800" 
-            onclick="EditUserInfo()"
+            onclick="EditUserInfo(${escapeHtml(address.id)}, '${escapeHtml(address.full_name)}',${escapeHtml(address.phone)}, '${escapeHtml(address.city)}', '${escapeHtml(address.state)}')"
             >Edit Information</button>
         `;
 
@@ -189,3 +191,51 @@ async function loadUserAddress() {
 document.addEventListener('DOMContentLoaded', () => {
     loadUserAddress();
 });
+
+// Update User Address 
+async function updateUserAddress(id, updatedData) {
+    // const form = document.getElementById('editUserAddressForm');
+    const errorMessage = document.getElementById('errorMessage');
+    // const id = localStorage.getItem('address_id');
+    // if (checkIfUserLoggedIn == false)
+    const formData = new FormData();
+    for (let key in updatedData) {
+        formData.append(key, updatedData[key]);
+    }
+    formData.append('_method', 'PUT');
+
+
+    try {
+        const auth_token = localStorage.getItem('token');
+        // const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const response = await fetch(`http://127.0.0.1:8000/api/customer/userAddress/${id}`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                // "X-CSRF-TOKEN": token,
+                "Authorization": `Bearer ${auth_token}`,
+            },
+            // credentials: 'include',
+            // body: JSON.stringify({ name, slug, description, price, image })
+            body: formData,
+        });
+        console.log("Response received");
+        const responseData = await response.json();
+
+        if (!response.ok) {
+            errorMessage.textContent = responseData.message || 'Error submitting form.';
+            console.error('Validation Errors:', responseData.errors);
+        } else {
+            errorMessage.textContent = '';
+            alert('user address Updated Successfully');
+            // form.reset();
+
+            window.location.reload();
+        }
+
+    } catch (err) {
+        console.error(err);
+        errorMessage.textContent = 'An unexpected error occurred.';
+    }
+
+}

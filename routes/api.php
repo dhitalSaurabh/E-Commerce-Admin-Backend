@@ -85,7 +85,7 @@ Route::prefix('customer')->group((function () {
 
         // Customer Address
         Route::get('userAddress', [UserAddressController::class, 'index']);
-        Route::get('userAddress/{userAddress}', [UserAddressController::class, 'show']);
+        Route::get('userAddress', [UserAddressController::class, 'show']);
 
         // Protected routes
         Route::middleware('auth:sanctum')->group(function () {
@@ -96,7 +96,7 @@ Route::prefix('customer')->group((function () {
         });
         // Order Item
         Route::get('orders', [OrderController::class, 'index']);
-        Route::get('orders/{order}', [OrderController::class, 'show']);
+        Route::get('user/orders', [OrderController::class, 'show']);
 
         // Protected routes
         Route::middleware('auth:sanctum')->group(function () {
@@ -116,7 +116,7 @@ Route::prefix('customer')->group((function () {
         });
         // Cart Item
         Route::get('carts', [CartController::class, 'index']);
-        Route::get('carts/{cart}', [CartController::class, 'show']);
+        Route::get('user/carts', [CartController::class, 'show']);
 
         // Protected routes
         Route::middleware('auth:sanctum')->group(function () {

@@ -85,57 +85,49 @@
     @endif
 
     <h2>My Profile</h2>
-    <div class="dialog-overlay" id="userAddressDialog">
+    <div class="dialog-overlay hidden" id="userAddressDialog">
         <div class="dialog-box">
             <button class="close-dialog" onclick="closeAddressDialog()">×</button>
-            <h2>Please Add user Address to continue</h2>
+            <h2>Update User Address</h2>
             <x-user-forms.edit-user-address />
         </div>
     </div>
     <div id="userAddressGrid" class="p-4"></div>
     <script>
-        function EditUserInfo() {
-            // document.getElementById("userAddressDialog").classList.remove("hidden");
-            document.getElementById("userAddressDialog").classList.add("flex");
-        }
-        function closeAddressDialog() {
-            document.getElementById("userAddressDialog").classList.add("hidden");
-        }
-    </script>
-    <script>
-         function openEditDialog(id, name, description, price, brand, sku, categoryId) {
+        function EditUserInfo(id, full_name, phone, city, state) {
+            const dialog = document.getElementById("userAddressDialog");
+            dialog.classList.remove("hidden");
+            dialog.classList.add("flex");
+            // data
             document.getElementById("editId").value = id;
-            console.log(id);
-            document.getElementById("editfull_name").value = name;
-            document.getElementById("editphone").value = description;
-            document.getElementById("editcity").value = price;
-            document.getElementById("editstate").value = brand;
-            document.getElementById("userAddressDialog").classList.remove("hidden");
-            document.getElementById("userAddressDialog").classList.add("flex");
+            document.getElementById("editfull_name").value = full_name;
+            document.getElementById("editphone").value = phone;
+            document.getElementById("editcity").value = city;
+            document.getElementById("editstate").value = state;
+
         }
 
-        function closeEditDialog() {
-            document.getElementById("userAddressDialog").classList.add("hidden");
+        function closeAddressDialog() {
+            const dialog = document.getElementById("userAddressDialog");
+            dialog.classList.remove("flex");
+            dialog.classList.add("hidden");
         }
         document.getElementById("editUserAddressForm").addEventListener("submit", async (e) => {
             e.preventDefault();
 
             const id = document.getElementById("editId").value;
             const updatedData = {
-                name: document.getElementById("editfull_name").value,
-                description: document.getElementById("editphone").value,
-                price: document.getElementById("editcity").value,
-                brand: document.getElementById("editstate").value,
-                sku: document.getElementById("editSku").value,
-                categoryId: document.getElementById("EditcategoryId").value,
-
+                full_name: document.getElementById("editfull_name").value,
+                phone: document.getElementById("editphone").value,
+                city: document.getElementById("editcity").value,
+                state: document.getElementById("editstate").value,
                 // price: document.getElementById("editPrice").value,
             };
 
             // const imageFile = document.getElementById("editImage").files[0];
             // if (imageFile) updatedData.image = imageFile;
 
-            await updateProductItem(id, updatedData);
+            await updateUserAddress(id, updatedData);
         });
 
     </script>

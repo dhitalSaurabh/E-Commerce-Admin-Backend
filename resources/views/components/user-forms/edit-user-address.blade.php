@@ -1,4 +1,5 @@
-<form id="editUserAddressForm" method="POST" enctype="multipart/form-data" class="space-y-4">
+<form id="editUserAddressForm"  enctype="multipart/form-data" class="space-y-4">
+   <input type="hidden" id="editId">
     <div>
         <label for="full_name" class="block text-gray-700 font-medium mb-1">Full Name</label>
         <input type="text" id="editfull_name" name="full_name" required

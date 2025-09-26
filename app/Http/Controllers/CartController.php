@@ -40,13 +40,36 @@ class CartController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(cart $cart)
+    // public function show(cart $cart)
+    // {
+    //     return response()->json([
+    //         'message' => 'Cart item retrieved successfully',
+    //         'data' => $cart->load('variant'),
+    //     ]);
+    // }
+
+    public function show()
     {
+        $user = auth()->user();
+
+        // Get the customer related to the authenticated user
+        // $customer = $user->customer;
+
+        // Get carts for that customer with related variant
+        $carts = $user->carts()->with('variant')->get();
+
+        if ($carts->isEmpty()) {
+            return response()->json([
+                'message' => 'No carts found for this customer.'
+            ], 404);
+        }
+
         return response()->json([
-            'message' => 'Cart item retrieved successfully',
-            'data' => $cart->load('variant'),
-        ]);
+            'message' => 'Carts retrieved successfully.',
+            'data' => $carts
+        ], 200);
     }
+
 
     /**
      * Update the specified resource in storage.

@@ -89,13 +89,35 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(order $order)
-    {
+    // public function show(order $order)
+    // {
+    //     return response()->json([
+    //         'message' => 'Orders retrieved successfully',
+    //         'data' => $order->load(['customer', 'address']),
+    //     ]);
+    // }
+public function show()
+{
+    $user = auth()->user();
+
+    // Get the customer's ID (assumes User hasOne Customer)
+  
+
+    // Retrieve orders placed by this customer, with related customer & address
+    $orders = $user->orders()->with(['customer', 'address'])->get();
+
+    if ($orders->isEmpty()) {
         return response()->json([
-            'message' => 'Orders retrieved successfully',
-            'data' => $order->load(['customer', 'address']),
-        ]);
+            'message' => 'No orders found for this customer.',
+        ], 404);
     }
+
+    return response()->json([
+        'message' => 'Orders retrieved successfully',
+        'data' => $orders,
+    ]);
+}
+
 
     /**
      * Update the specified resource in storage.
