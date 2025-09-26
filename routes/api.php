@@ -106,7 +106,7 @@ Route::prefix('customer')->group((function () {
         });
         // Order Item
         Route::get('orderedItems', [OrderedItemController::class, 'index']);
-        Route::get('orderedItems/{orderedItem}', [OrderedItemController::class, 'show']);
+        Route::get('user/orderedItems', [OrderedItemController::class, 'show']);
 
         // Protected routes
         Route::middleware('auth:sanctum')->group(function () {

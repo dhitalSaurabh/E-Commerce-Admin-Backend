@@ -46,16 +46,37 @@ class OrderedItemController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(OrderedItem $orderedItem)
-    {
-        // $item = OrderedItem::with(['order', 'variant'])->findOrFail($id);
+    // public function show(OrderedItem $orderedItem)
+    // {
+    //     // $item = OrderedItem::with(['order', 'variant'])->findOrFail($id);
 
+    //     return response()->json([
+    //         'message' => 'Ordered item retrieved successfully',
+    //         'data' => $orderedItem->load(['order', 'variant']),
+    //     ]);
+    // }
+
+public function show()
+{
+    $user = auth()->user();
+
+    // Get the customer's ID (assumes User hasOne Customer)
+  
+
+    // Retrieve orders placed by this customer, with related customer & address
+    $orderedItem = $user->ordereditems()->with(['order', 'variant'])->get();
+
+    if ($orderedItem->isEmpty()) {
         return response()->json([
-            'message' => 'Ordered item retrieved successfully',
-            'data' => $orderedItem->load(['order', 'variant']),
-        ]);
+            'message' => 'No Ordered Item found for this customer.',
+        ], 404);
     }
 
+    return response()->json([
+        'message' => 'Ordered Item retrieved successfully',
+        'data' => $orderedItem,
+    ]);
+}
     /**
      * Update the specified resource in storage.
      */
