@@ -47,7 +47,7 @@ async function loadProducts() {
             const formattedDate = new Date(created_at).toLocaleDateString('en-US'); // MM/DD/YY format
 
             const card = document.createElement('div');
-            card.className = 'product-card border rounded-lg shadow-lg p-4 bg-white max-w-sm opacity-0 transform translate-y-5 transition-all duration-500 ease-out hover:scale-105 hover:shadow-xl'; // Card hover effects
+            card.className = 'product-card border rounded-lg shadow-lg p-4 bg-white max-w-sm opacity-0 transform transition-all duration-500 ease-out hover:shadow-2xl'; // Card hover effects
 
             card.innerHTML = `
                 <img src="${image}" alt="${escapeHtml(name)}" class="w-full h-48 object-cover rounded mb-3 transition-transform duration-300 ease-in-out transform hover:scale-105">
@@ -66,12 +66,12 @@ async function loadProducts() {
 
                 <div class="mt-3 flex gap-2 opacity-0 transition-opacity duration-300">
                     <button
-                        class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition-all duration-300 transform hover:scale-105"
+                        class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition-all duration-300 transform "
                         onclick="openOrderDialog(${id})"
                     >Order Now</button>
 
                     <a href="/variants/${id}"><button
-                        class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition-all duration-300 transform hover:scale-105"
+                        class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition-all duration-300 transform"
                         
                     >Check Variants</button></a>
                 </div>

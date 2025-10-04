@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Hash;
+
 class AuthController extends Controller
 {
     public function registers(Request $request)
@@ -26,6 +27,30 @@ class AuthController extends Controller
             // 'token' => $token->plainTextToken,
         ]);
     }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'old_password' => 'required|string',
+            'new_password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = Auth::guard('customer')->user(); // Authenticated user
+
+        if (!$user) {
+            return response()->json(['message' => 'Unauthenticated.'], 401);
+        }
+
+        if (!Hash::check($request->old_password, $user->password)) {
+            return response()->json(['message' => 'Old password is incorrect.'], 403);
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return response()->json(['message' => 'Password has been reset successfully.']);
+    }
+
     public function login(Request $request)
     {
         $request->validate([

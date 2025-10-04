@@ -89,7 +89,7 @@ Route::prefix('customer')->group((function () {
 
         // Protected routes
         Route::middleware('auth:sanctum')->group(function () {
-                    Route::get('auth/userAddress', [UserAddressController::class, 'showDetailsToAuthUsers']);
+            Route::get('auth/userAddress', [UserAddressController::class, 'showDetailsToAuthUsers']);
             Route::post('userAddress', [UserAddressController::class, 'store']);
             Route::put('userAddress/{userAddress}', [UserAddressController::class, 'update']);
             Route::delete('userAddress/{userAddress}', [UserAddressController::class, 'destroy']);
@@ -149,6 +149,9 @@ Route::prefix('customer')->group((function () {
     // Customer Verify OTP
     Route::post('/send-otp', [OTPController::class, 'sendOtp']);
     Route::post('/verify-otp', [OTPController::class, 'verifyOtp']);
+
+    // customer reset password
+    Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 }));
 
 Route::prefix('customer')->group((function () {

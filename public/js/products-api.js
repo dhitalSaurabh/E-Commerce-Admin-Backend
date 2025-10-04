@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
 
         const formData = new FormData(form);
-        console.log(formData);
+        // console.log(formData);
         // const name = document.getElementById('name').value;
         // const slug = document.getElementById('slug').value;
         // const description = document.getElementById('description').value;

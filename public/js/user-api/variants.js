@@ -64,10 +64,7 @@ async function loadVarients(productId) {
 `.trim();
 
             card.innerHTML = `
-    <img src="${productImage}" alt="${escapeHtml(productName)}"
-        class="w-full h-48 object-cover rounded mb-3
-               transition-transform duration-300 ease-in-out
-               hover:scale-105">
+    <img src="${productImage}" alt="${escapeHtml(productName)}" class="w-full h-48 object-cover rounded mb-3 transition-transform duration-300 ease-in-out transform hover:scale-105">
 
     <h2 class="text-xl font-bold mb-2 text-gray-800">${escapeHtml(productName)}</h2>
 
