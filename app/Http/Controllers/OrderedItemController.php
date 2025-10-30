@@ -16,7 +16,7 @@ class OrderedItemController extends Controller
     {
         return response()->json([
             'message' => 'Ordered items retrieved successfully',
-            'data' => OrderedItem::with(['order', 'variant'])->get(),
+            'data' => OrderedItem::with(['order', 'variant', 'customer'])->get(),
         ]);
     }
 
@@ -64,7 +64,7 @@ public function show()
   
 
     // Retrieve orders placed by this customer, with related customer & address
-    $orderedItem = $user->ordereditems()->with(['order', 'variant'])->get();
+    $orderedItem = $user->ordereditems()->with(['order', 'variant', 'customer'])->get();
 
     if ($orderedItem->isEmpty()) {
         return response()->json([

@@ -90,6 +90,10 @@ Route::get('/my-orders', function () {
 Route::get('/my-payments', function () {
     return view('dashboard.my-payments');
 });
+
+Route::get('/proceed-to-payment', function () {
+    return view('payments.payment');
+});
 //My Reset Password
 Route::get('/user/reset-password', function () {
     return view('dashboard.reset-password');

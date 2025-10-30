@@ -31,10 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 errorMessage.textContent = responseData.message || 'Error submitting form.';
                 console.error('Validation Errors:', responseData.errors);
             } else {
-                alert('Product added Successfully');
+                alert('Product ordered Successfully');
                 form.reset();
+
                 errorMessage.textContent = '';
-                window.location.reload();
+                // window.location.reload()
+                ;
             }
 
         } catch (err) {
@@ -76,7 +78,8 @@ async function loadOrders() {
                 quantity,
                 created_at,
                 variant,
-                order
+                order,
+                customer
             } = cart;
 
             const {
@@ -88,9 +91,20 @@ async function loadOrders() {
                 price
             } = variant;
 
+            // const {
+            //     name,
+            //     email,
+            //     mobile_number,
+            // } = customer;
+
             const formattedOrderDate = new Date(order.created_at).toLocaleString();
             const totalAmount = order.total_amount;
             const orderStatus = order.status;
+
+// Extract customer info safely
+const customerName = customer?.name || "Unknown";
+const customerEmail = customer?.email || "unknown@example.com";
+const customerPhone = customer?.mobile_number || "9800000000";
 
             const card = document.createElement('div');
             card.className = `
@@ -130,6 +144,13 @@ async function loadOrders() {
                     </ul>
 
                     <div class="flex gap-2">
+                    ${orderStatus === 'paid' 
+                ? `<button disabled class="flex-1 px-4 py-2 bg-gray-400 text-white font-semibold rounded-lg">Paid</button>`
+                : `<a href="/proceed-to-payment?cart_id=${cartId}&order_id=${order.id}&quantity=${quantity}&totalAmount=${totalAmount}&name=${encodeURIComponent(customerName)}&email=${encodeURIComponent(customerEmail)}&mobile=${encodeURIComponent(customerPhone)}"
+                    class="flex-1 px-4 py-2 bg-green-500 text-center text-white font-semibold rounded-lg hover:bg-green-600 transition-all duration-300 shadow hover:shadow-md">
+                    Pay Now
+                </a>`
+            }
                         <button
                             onclick="editCart(${cartId}, ${quantity})"
                             class="flex-1 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg

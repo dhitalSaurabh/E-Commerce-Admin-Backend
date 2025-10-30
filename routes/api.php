@@ -18,6 +18,8 @@ use App\Http\Controllers\AuthAdminController;
 use App\Http\Controllers\ClothController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\KhaltiController;
+
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
@@ -78,6 +80,9 @@ Route::prefix('admin')->group((function () {
 
 
 }));
+
+Route::post('/khalti/initiate', [KhaltiController::class, 'initiate'])->name('khalti.initiate');
+
 Route::prefix('customer')->group((function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('showCustomers', [CustomerController::class, 'index']);
