@@ -91,20 +91,16 @@ async function loadOrders() {
                 price
             } = variant;
 
-            // const {
-            //     name,
-            //     email,
-            //     mobile_number,
-            // } = customer;
+
 
             const formattedOrderDate = new Date(order.created_at).toLocaleString();
             const totalAmount = order.total_amount;
             const orderStatus = order.status;
 
-// Extract customer info safely
-const customerName = customer?.name || "Unknown";
-const customerEmail = customer?.email || "unknown@example.com";
-const customerPhone = customer?.mobile_number || "9800000000";
+            // Extract customer info safely
+            const customerName = customer?.name || "Unknown";
+            const customerEmail = customer?.email || "unknown@example.com";
+            const customerPhone = customer?.mobile_number || "9800000000";
 
             const card = document.createElement('div');
             card.className = `
@@ -144,13 +140,12 @@ const customerPhone = customer?.mobile_number || "9800000000";
                     </ul>
 
                     <div class="flex gap-2">
-                    ${orderStatus === 'paid' 
-                ? `<button disabled class="flex-1 px-4 py-2 bg-gray-400 text-white font-semibold rounded-lg">Paid</button>`
-                : `<a href="/proceed-to-payment?cart_id=${cartId}&order_id=${order.id}&quantity=${quantity}&totalAmount=${totalAmount}&name=${encodeURIComponent(customerName)}&email=${encodeURIComponent(customerEmail)}&mobile=${encodeURIComponent(customerPhone)}"
-                    class="flex-1 px-4 py-2 bg-green-500 text-center text-white font-semibold rounded-lg hover:bg-green-600 transition-all duration-300 shadow hover:shadow-md">
-                    Pay Now
-                </a>`
-            }
+                    ${orderStatus === 'paid'
+                    ? `<button disabled class="flex-1 px-4 py-2 bg-gray-400 text-white font-semibold rounded-lg">Paid</button>`
+                    : `<button onclick="openPayment( ${cart.id} ,  ${order.id}, ${quantity}, ${totalAmount}, '${customerName}', '${customerEmail}', '${customerPhone}')">
+    Pay Now
+</button>`
+                }
                         <button
                             onclick="editCart(${cartId}, ${quantity})"
                             class="flex-1 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg
@@ -177,9 +172,15 @@ const customerPhone = customer?.mobile_number || "9800000000";
 }
 
 document.addEventListener('DOMContentLoaded', loadOrders);
-
-
-// document.addEventListener('DOMContentLoaded', () => {
-//         loadOrders();
-   
-// });
+function openPayment(cartId, orderId, quantity, totalAmount, name, email, phone) {
+    const query = new URLSearchParams({
+        cart_id: cartId,
+        order_id: orderId,
+        quantity,
+        total_amount: totalAmount,
+        customer_name: name,
+        customer_email: email,
+        customer_phone: phone
+    });
+    window.open(`/proceed-to-payment?${query.toString()}`, '_blank');
+}

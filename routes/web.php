@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthAdminController;
+use App\Http\Controllers\EsewaController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -86,14 +87,18 @@ Route::get('/profile', function () {
 Route::get('/my-orders', function () {
     return view('dashboard.my-orders');
 });
-//My Payments
+// //My Payments
 Route::get('/my-payments', function () {
     return view('dashboard.my-payments');
 });
 
-Route::get('/proceed-to-payment', function () {
-    return view('payments.payment');
-});
+// Route::get('/proceed-to-payment', function () {
+//     return view('layouts.payment');
+// });
+Route::get('/proceed-to-payment', [EsewaController::class, 'initiate'])->name('esewa.initiate');
+Route::get('/esewa/success', [EsewaController::class, 'success'])->name('esewa.success');
+Route::get('/esewa/failure', [EsewaController::class, 'failure'])->name('esewa.failure');
+
 //My Reset Password
 Route::get('/user/reset-password', function () {
     return view('dashboard.reset-password');

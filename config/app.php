@@ -54,6 +54,12 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+
+    // return [
+    'secret_key' => env('KHALTI_SECRET_KEY'),
+    'base_url' => env('http://localhost'),
+    'public_key' => env('KHALTI_PUBLIC_KEY'),
+// ];
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

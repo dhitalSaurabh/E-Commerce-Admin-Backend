@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\EsewaController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderedItemController;
@@ -77,12 +78,19 @@ Route::prefix('admin')->group((function () {
         Route::put('inventories/{inventory}', [InventoryController::class, 'update']);
         Route::delete('inventories/{inventory}', [InventoryController::class, 'destroy']);
     });
-
-
 }));
 
-Route::post('/khalti/initiate', [KhaltiController::class, 'initiate'])->name('khalti.initiate');
+Route::post('/khalti/initiate', [KhaltiController::class, 'initiatePayment']);
+Route::post('/payment/verify', [KhaltiController::class, 'verifyPayment']);
 
+
+
+// Route::middleware('auth:sanctum')->group(function () {
+Route::get('/esewa/initiate', [EsewaController::class, 'initiate'])->name('esewa.initiate');
+// });
+Route::get('/esewa/verify-success', [EsewaController::class, 'success'])->name('esewa.success');
+Route::get('/esewa/failure', [EsewaController::class, 'failure'])->name('esewa.failure');
+Route::post('/esewa/verify', [EsewaController::class, 'verify'])->name('esewa.verify');
 Route::prefix('customer')->group((function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('showCustomers', [CustomerController::class, 'index']);
