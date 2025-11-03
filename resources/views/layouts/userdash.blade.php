@@ -44,6 +44,11 @@
                     class="w-full text-left px-6 py-2 text-sm text-white-600 bg-blue-500 hover:bg-gray-700">
                     {{-- Login --}}
                 </button>
+                <!-- Sign In Button -->
+                {{-- <button id="signInBtn" onclick="handleAuthButton()"
+                    class="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md text-sm">
+                    Sign In
+                </button> --}}
             </div>
 
         </div>
@@ -88,7 +93,6 @@
                     // Remove it so it doesn’t show again on refresh
                     localStorage.removeItem('password_reset');
                 }
-
             });
         </script>
         <script>
@@ -132,6 +136,9 @@
                     dropdown.classList.add('hidden');
                 }
             });
+
+        </script>
+
 
         </script>
         <script src="{{ asset('js/showpopup.js')}}"></script>

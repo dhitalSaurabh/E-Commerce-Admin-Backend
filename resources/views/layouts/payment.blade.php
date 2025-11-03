@@ -11,9 +11,9 @@
 </head>
 
 <body>
-    <h1>Test Khalti Payment</h1>
+    {{-- <h1>Test Khalti Payment</h1> --}}
 
-    <button id="payBtn">Initiate Khalti Payment</button>
+    {{-- <button id="payBtn">Initiate Khalti Payment</button> --}}
 
     {{-- <script>
         document.getElementById('payBtn').addEventListener('click', async () => {
@@ -106,7 +106,7 @@
     <p><strong>Amount:</strong> Rs. {{ $amount }}</p>
     <p><strong>Tax:</strong> Rs. {{ $tax_amount }}</p>
     <p><strong>Total:</strong> Rs. {{ $total_amount }}</p>
-    <p><strong>Transaction ID:</strong> {{ $transaction_uuid }}</p>
+    {{-- <p><strong>Transaction ID:</strong> {{ $transaction_uuid }}</p> --}}
 
     {{-- eSewa Payment Form --}}
     <form action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST">

@@ -141,18 +141,27 @@ async function loadOrders() {
 
                     <div class="flex gap-2">
                     ${orderStatus === 'paid'
-                    ? `<button disabled class="flex-1 px-4 py-2 bg-gray-400 text-white font-semibold rounded-lg">Paid</button>`
-                    : `<button onclick="openPayment( ${cart.id} ,  ${order.id}, ${quantity}, ${totalAmount}, '${customerName}', '${customerEmail}', '${customerPhone}')">
-    Pay Now
-</button>`
+                    ? `<button disabled class="flex-1 px-4 py-2 bg-green-400 text-white font-semibold rounded-lg">Paid</button>`
+                    : `<button
+                     onclick="openPayment( ${cart.id} ,  ${order.id}, ${quantity}, ${totalAmount}, '${customerName}', '${customerEmail}', '${customerPhone}')"
+                     class="flex-1 px-4 py-2 bg-green-500 text-white font-semibold rounded-lg">
+                    Pay Now</button>`
                 }
-                        <button
-                            onclick="editCart(${cartId}, ${quantity})"
+                        ${orderStatus === 'paid' ?
+                    `<button disabled
+                            class="flex-1 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg
+                                   hover:bg-blue-600 transition-all duration-300 shadow hover:shadow-md">
+                            Already Paid 
+                        </button>`
+                    : `
+                         <button
+                            onclick="deleteorderedItem(${id})"
                             class="flex-1 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg
                                    hover:bg-blue-600 transition-all duration-300 shadow hover:shadow-md">
                             Cancel Order
                         </button>
-                        
+                         `
+                }
                     </div>
                 </div>
             `;
@@ -184,3 +193,41 @@ function openPayment(cartId, orderId, quantity, totalAmount, name, email, phone)
     });
     window.open(`/proceed-to-payment?${query.toString()}`, '_blank');
 }
+
+// async function deleteorderedItem(id) {
+//     const auth_token = localStorage.getItem('token');
+//      try {
+//             const auth_token = localStorage.getItem('token');
+//             // const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+//             const response = await fetch("http://127.0.0.1:8000/api/customer/user/orderedItems/${id}", {
+//                 method: 'DELETE',
+//                 headers: {
+//                     'Accept': 'application/json',
+//                     // "X-CSRF-TOKEN": token,
+//                     "Authorization": `Bearer ${auth_token}`,
+//                 },
+//                 credentials: 'include',
+//                 // body: JSON.stringify({ name, slug, description, price, image })
+//                 body: formData,
+//             });
+//             console.log("Response received");
+//             const responseData = await response.json();
+
+//             if (!response.ok) {
+//                 errorMessage.textContent = responseData.message || 'Error submitting form.';
+//                 console.error('Validation Errors:', responseData.errors);
+//             } else {
+//                 alert('Product ordered Successfully');
+//                 form.reset();
+
+//                 errorMessage.textContent = '';
+//                 // window.location.reload()
+//                 ;
+//             }
+
+//         } catch (err) {
+//             console.error(err);
+//             errorMessage.textContent = 'An unexpected error occurred.';
+//         }
+    
+// }

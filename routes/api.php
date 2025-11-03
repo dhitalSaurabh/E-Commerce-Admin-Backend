@@ -88,7 +88,7 @@ Route::post('/payment/verify', [KhaltiController::class, 'verifyPayment']);
 // Route::middleware('auth:sanctum')->group(function () {
 Route::get('/esewa/initiate', [EsewaController::class, 'initiate'])->name('esewa.initiate');
 // });
-Route::get('/esewa/verify-success', [EsewaController::class, 'success'])->name('esewa.success');
+Route::get('/esewa/success', [EsewaController::class, 'verify'])->name('esewa.verify');
 Route::get('/esewa/failure', [EsewaController::class, 'failure'])->name('esewa.failure');
 Route::post('/esewa/verify', [EsewaController::class, 'verify'])->name('esewa.verify');
 Route::prefix('customer')->group((function () {
