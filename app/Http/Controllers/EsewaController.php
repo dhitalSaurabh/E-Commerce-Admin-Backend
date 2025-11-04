@@ -21,15 +21,15 @@ class EsewaController extends Controller
             'customer_email' => 'required|email',
             'customer_phone' => 'required|string',
         ]);
-
         $amount = $request->total_amount;
         $tax_amount = 10;
         $total_amount = $amount + $tax_amount;
         $transaction_uuid = uniqid();
         $product_code = 'EPAYTEST';
-        $success_url = route('esewa.verify', [
+
+     $success_url = route('esewa.verify', [
             'order_id' => $request->order_id,
-        'data' => 'Placeholder for eSewa response data',
+            'data' => $encodedData,
         ]);
         $failure_url = route('esewa.failure');
 

@@ -155,7 +155,7 @@ async function loadOrders() {
                         </button>`
                     : `
                          <button
-                            onclick="deleteorderedItem(${id})"
+                            onclick="deleteorderedItem(${cart.id})"
                             class="flex-1 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg
                                    hover:bg-blue-600 transition-all duration-300 shadow hover:shadow-md">
                             Cancel Order
@@ -194,40 +194,42 @@ function openPayment(cartId, orderId, quantity, totalAmount, name, email, phone)
     window.open(`/proceed-to-payment?${query.toString()}`, '_blank');
 }
 
-// async function deleteorderedItem(id) {
-//     const auth_token = localStorage.getItem('token');
-//      try {
-//             const auth_token = localStorage.getItem('token');
-//             // const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-//             const response = await fetch("http://127.0.0.1:8000/api/customer/user/orderedItems/${id}", {
-//                 method: 'DELETE',
-//                 headers: {
-//                     'Accept': 'application/json',
-//                     // "X-CSRF-TOKEN": token,
-//                     "Authorization": `Bearer ${auth_token}`,
-//                 },
-//                 credentials: 'include',
-//                 // body: JSON.stringify({ name, slug, description, price, image })
-//                 body: formData,
-//             });
-//             console.log("Response received");
-//             const responseData = await response.json();
+async function deleteorderedItem(id) {
 
-//             if (!response.ok) {
-//                 errorMessage.textContent = responseData.message || 'Error submitting form.';
-//                 console.error('Validation Errors:', responseData.errors);
-//             } else {
-//                 alert('Product ordered Successfully');
-//                 form.reset();
+    try {
+        const oid = id;
+        const auth_token = localStorage.getItem('token');
+        // const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const response = await fetch(`http://127.0.0.1:8000/api/customer/orderedItems/${oid}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                // "X-CSRF-TOKEN": token,
+                "Authorization": `Bearer ${auth_token}`,
+            },
+            credentials: 'include',
+            // body: JSON.stringify({ name, slug, description, price, image })
+            // body: formData,
+        });
+        console.log("Response received");
+        // const responseData = await response.json();
 
-//                 errorMessage.textContent = '';
-//                 // window.location.reload()
-//                 ;
-//             }
+        if (!response.ok) {
+            errorMessage.textContent = responseData.message || 'Error submitting form.';
+            console.error('Validation Errors:', responseData.errors);
+        } else {
+            alert('Product deleted Successfully');
+            // form.reset();
+            window.location.reload();
 
-//         } catch (err) {
-//             console.error(err);
-//             errorMessage.textContent = 'An unexpected error occurred.';
-//         }
-    
-// }
+            errorMessage.textContent = '';
+            // window.location.reload()
+            ;
+        }
+
+    } catch (err) {
+        console.error(err);
+        errorMessage.textContent = 'An unexpected error occurred.';
+    }
+
+}
