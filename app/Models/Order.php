@@ -10,10 +10,12 @@ class Order extends Model
     /** @use HasFactory<\Database\Factories\OrderFactory> */
     use HasFactory;
     protected $fillable = [
+        'id',
         'customer_id',
         'user_address_id',
         'status',
         'total_amount',
+        'transaction_code',
     ];
     // Relationships
     public function customer()

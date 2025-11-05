@@ -35,7 +35,7 @@ class OrderController extends Controller
             'price' => 'required|numeric|min:0',
         ]);
 
-        // 🟨 Start transaction (missing in your code)
+        //  Start transaction 
         DB::beginTransaction();
         $user = $request->user();
 
@@ -53,12 +53,16 @@ class OrderController extends Controller
             if (!$user) {
                 throw new \Exception('Unauthorized - No customer is logged in.');
             }
-
+            do {
+                $transaction_code = uniqid(); // generates a number between 100000-999999
+            } while (Order::where('transaction_code', $transaction_code)->exists());
             // ✅ Create order
             $order = $user->orders()->create([
+                // 'id' => $orderId,
                 'user_address_id' => $address->id,
                 'status' => $fields['status'] ?? 'pending',
                 'total_amount' => $fields['total_amount'] ?? 0,
+                'transaction_code' => $transaction_code,
             ]);
 
             // ✅ Create ordered item
@@ -96,27 +100,27 @@ class OrderController extends Controller
     //         'data' => $order->load(['customer', 'address']),
     //     ]);
     // }
-public function show()
-{
-    $user = auth()->user();
+    public function show()
+    {
+        $user = auth()->user();
 
-    // Get the customer's ID (assumes User hasOne Customer)
-  
+        // Get the customer's ID (assumes User hasOne Customer)
 
-    // Retrieve orders placed by this customer, with related customer & address
-    $orders = $user->orders()->with(['customer', 'address'])->get();
 
-    if ($orders->isEmpty()) {
+        // Retrieve orders placed by this customer, with related customer & address
+        $orders = $user->orders()->with(['customer', 'address'])->get();
+
+        if ($orders->isEmpty()) {
+            return response()->json([
+                'message' => 'No orders found for this customer.',
+            ], 404);
+        }
+
         return response()->json([
-            'message' => 'No orders found for this customer.',
-        ], 404);
+            'message' => 'Orders retrieved successfully',
+            'data' => $orders,
+        ]);
     }
-
-    return response()->json([
-        'message' => 'Orders retrieved successfully',
-        'data' => $orders,
-    ]);
-}
 
 
     /**

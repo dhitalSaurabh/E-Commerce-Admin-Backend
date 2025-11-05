@@ -21,17 +21,6 @@ return new class extends Migration {
             $table->timestamps();
         });
     }
-    // CREATE TABLE orders (
-//     order_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-//     user_id BIGINT NOT NULL,
-//     address_id BIGINT NOT NULL,
-//     status ENUM('pending', 'paid', 'shipped', 'delivered', 'cancelled') DEFAULT 'pending',
-//     total_amount DECIMAL(12,2) NOT NULL,
-//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-//     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-//     FOREIGN KEY (user_id) REFERENCES users(user_id),
-//     FOREIGN KEY (address_id) REFERENCES addresses(address_id)
-// );
 
     /**
      * Reverse the migrations.

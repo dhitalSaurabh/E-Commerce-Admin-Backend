@@ -98,6 +98,9 @@ Route::get('/my-payments', function () {
 Route::get('/proceed-to-payment', [EsewaController::class, 'initiate'])->name('esewa.initiate');
 Route::get('/esewa/success', [EsewaController::class, 'verify'])->name('esewa.verify');
 Route::get('/esewa/failure', [EsewaController::class, 'failure'])->name('esewa.failure');
+// Route::get('/payment-success', function () {
+//     return view('esewa.success');
+// });
 
 //My Reset Password
 Route::get('/user/reset-password', function () {

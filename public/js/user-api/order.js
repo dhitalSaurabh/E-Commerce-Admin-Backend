@@ -142,10 +142,20 @@ async function loadOrders() {
                     <div class="flex gap-2">
                     ${orderStatus === 'paid'
                     ? `<button disabled class="flex-1 px-4 py-2 bg-green-400 text-white font-semibold rounded-lg">Paid</button>`
-                    : `<button
-                     onclick="openPayment( ${cart.id} ,  ${order.id}, ${quantity}, ${totalAmount}, '${customerName}', '${customerEmail}', '${customerPhone}')"
-                     class="flex-1 px-4 py-2 bg-green-500 text-white font-semibold rounded-lg">
-                    Pay Now</button>`
+                    : `<button type ='button'
+                            onclick='openPayment(
+                     ${cart.id},
+                     ${order.id},
+                     ${quantity},
+                     ${totalAmount},
+                    ${JSON.stringify(customerName)},
+                    ${JSON.stringify(customerEmail)},
+                    ${JSON.stringify(customerPhone)},
+                    ${JSON.stringify(order.transaction_code)}
+                        )'
+                    class="flex-1 px-4 py-2 bg-green-500 text-white font-semibold rounded-lg">
+                    Pay Now
+                </button>`
                 }
                         ${orderStatus === 'paid' ?
                     `<button disabled
@@ -181,17 +191,18 @@ async function loadOrders() {
 }
 
 document.addEventListener('DOMContentLoaded', loadOrders);
-function openPayment(cartId, orderId, quantity, totalAmount, name, email, phone) {
+function openPayment(cartId, orderId, quantity, totalAmount, name, email, phone, transaction_code) {
     const query = new URLSearchParams({
+        orderId: orderId,
         cart_id: cartId,
-        order_id: orderId,
         quantity,
         total_amount: totalAmount,
         customer_name: name,
         customer_email: email,
-        customer_phone: phone
+        customer_phone: phone,
+        transaction_uuid: transaction_code,
     });
-    window.open(`/proceed-to-payment?${query.toString()}`, '_blank');
+    window.open(`/proceed-to-payment?${query.toString()}`);
 }
 
 async function deleteorderedItem(id) {

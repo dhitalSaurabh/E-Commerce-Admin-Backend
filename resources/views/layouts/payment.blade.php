@@ -15,7 +15,8 @@
 
     {{-- <button id="payBtn">Initiate Khalti Payment</button> --}}
 
-    {{-- <script>
+    {{--
+    <script>
         document.getElementById('payBtn').addEventListener('click', async () => {
             try {
                 // 1️⃣ Initiate payment on your server
@@ -101,7 +102,7 @@
         });
     </script> --}}
 
-     <h1>eSewa Payment Test</h1>
+    <h1>eSewa Payment Test</h1>
 
     <p><strong>Amount:</strong> Rs. {{ $amount }}</p>
     <p><strong>Tax:</strong> Rs. {{ $tax_amount }}</p>
@@ -110,6 +111,7 @@
 
     {{-- eSewa Payment Form --}}
     <form action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST">
+        {{-- <input type="hidden" name="order_id" value="{{ $order_id }}"> --}}
         <input type="hidden" name="amount" value="{{ $amount }}">
         <input type="hidden" name="tax_amount" value="{{ $tax_amount }}">
         <input type="hidden" name="total_amount" value="{{ $total_amount }}">
@@ -121,7 +123,6 @@
         <input type="hidden" name="failure_url" value="{{ $failure_url }}">
         <input type="hidden" name="signed_field_names" value="total_amount,transaction_uuid,product_code">
         <input type="hidden" name="signature" value="{{ $signature }}">
-        
         <button type="submit" style="
             background-color: #1ba548;
             color: white;
@@ -132,8 +133,6 @@
             Pay with eSewa
         </button>
     </form>
-
-
 </body>
 
 </html>
