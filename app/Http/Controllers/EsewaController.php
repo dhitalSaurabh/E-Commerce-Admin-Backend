@@ -14,41 +14,55 @@ class EsewaController extends Controller
     public function initiate(Request $request)
     {
         $fields = $request->validate([
-            'order_id' => 'required|string',
-            'cart_id' => 'required|string',
+            'order_id' => 'required',
+            'cart_id' => 'required',
             'quantity' => 'required|integer',
             'total_amount' => 'required|numeric',
             'customer_name' => 'required|string',
             'customer_email' => 'required|email',
             'customer_phone' => 'required|string',
-            // 'transaction_uuid' => 'nullable|string',
+            'transaction_code' => 'required|string',
         ]);
         $amount = $request->total_amount;
         $tax_amount = 10;
-        $total_amount = $amount + $tax_amount;
-        $transaction_code = $request->transaction_code;
+        $totalamount = $amount + $tax_amount;
+        // $transaction_code = $request->transaction_code;
         $order_id = $request->order_id;
-        $transaction_uuid = $request->transaction_uuid;
+        $transaction_uuid = $request->transaction_code;
         $product_code = 'EPAYTEST';
         $success_url = route('esewa.verify');
         // $payload = json_decode(base64_decode($request->payload), true);
 
         $failure_url = route('esewa.failure');
 
-        $data = "total_amount={$total_amount},transaction_uuid={$transaction_uuid},product_code={$product_code}";
+        $data = "total_amount={$totalamount},transaction_uuid={$transaction_uuid},product_code={$product_code}";
         $signature = base64_encode(hash_hmac('sha256', $data, '8gBm/:&EnhH.1/q', true));
 
-        return view('layouts.payment', compact(
-            'order_id',
-            'amount',
-            'tax_amount',
-            'total_amount',
-            'transaction_uuid',
-            'product_code',
-            'success_url',
-            'failure_url',
-            'signature'
-        ));
+        // return view('layouts.payment', compact(
+        //     'order_id',
+        //     'amount',
+        //     'tax_amount',
+        //     'total_amount',
+        //     'transaction_uuid',
+        //     'product_code',
+        //     'success_url',
+        //     'failure_url',
+        //     'signature'
+        // ));
+        $paymentUrl = route('esewa.paymentPage', [
+    'order_id' => $order_id,
+    'amount' => $amount,
+    'tax_amount' => $tax_amount,
+    'total_amount' => $totalamount,
+    'transaction_uuid' => $transaction_uuid,
+    'product_code' => $product_code,
+    'success_url' => $success_url,
+    'failure_url' => $failure_url,
+    'signature' => $signature,
+]);
+return response()->json([
+    'payment_url' => $paymentUrl
+]);
     }
 
     // Step 2: Verify payment

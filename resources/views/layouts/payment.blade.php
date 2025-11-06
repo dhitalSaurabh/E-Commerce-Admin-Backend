@@ -102,7 +102,7 @@
         });
     </script> --}}
 
-    <h1>eSewa Payment Test</h1>
+    <h1>E-Sewa Payment </h1>
 
     <p><strong>Amount:</strong> Rs. {{ $amount }}</p>
     <p><strong>Tax:</strong> Rs. {{ $tax_amount }}</p>

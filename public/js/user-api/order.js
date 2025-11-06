@@ -101,6 +101,7 @@ async function loadOrders() {
             const customerName = customer?.name || "Unknown";
             const customerEmail = customer?.email || "unknown@example.com";
             const customerPhone = customer?.mobile_number || "9800000000";
+            const transaction_code = order?.transaction_code || "";
 
             const card = document.createElement('div');
             card.className = `
@@ -142,7 +143,7 @@ async function loadOrders() {
                     <div class="flex gap-2">
                     ${orderStatus === 'paid'
                     ? `<button disabled class="flex-1 px-4 py-2 bg-green-400 text-white font-semibold rounded-lg">Paid</button>`
-                    : `<button type ='button'
+                    : `<button 
                             onclick='openPayment(
                      ${cart.id},
                      ${order.id},
@@ -151,7 +152,7 @@ async function loadOrders() {
                     ${JSON.stringify(customerName)},
                     ${JSON.stringify(customerEmail)},
                     ${JSON.stringify(customerPhone)},
-                    ${JSON.stringify(order.transaction_code)}
+                    ${JSON.stringify(transaction_code)}
                         )'
                     class="flex-1 px-4 py-2 bg-green-500 text-white font-semibold rounded-lg">
                     Pay Now
@@ -191,18 +192,57 @@ async function loadOrders() {
 }
 
 document.addEventListener('DOMContentLoaded', loadOrders);
-function openPayment(cartId, orderId, quantity, totalAmount, name, email, phone, transaction_code) {
-    const query = new URLSearchParams({
-        orderId: orderId,
-        cart_id: cartId,
-        quantity,
-        total_amount: totalAmount,
-        customer_name: name,
-        customer_email: email,
-        customer_phone: phone,
-        transaction_uuid: transaction_code,
-    });
-    window.open(`/proceed-to-payment?${query.toString()}`);
+async function openPayment(cartId, orderId, quantity, totalAmount, name, email, phone, transaction_uuid) {
+    // const query = new URLSearchParams({
+    //     orderId: orderId,
+    //     cart_id: cartId,
+    //     quantity,
+    //     total_amount: totalAmount,
+    //     customer_name: name,
+    //     customer_email: email,
+    //     customer_phone: phone,
+    //     transaction_uuid: transaction_code,
+    // });
+    // window.open(`/proceed-to-payment?${query.toString()}`);
+    try {
+        const response = await fetch('/api/esewa/initiate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                order_id: orderId,
+                cart_id: cartId,
+                quantity: quantity,
+                total_amount: totalAmount,
+                customer_name: name,
+                customer_email: email,
+                customer_phone: phone,
+                transaction_code: transaction_uuid,
+            })
+        });
+        // const text = await response.text();
+        // console.log("🔍 Raw response:", text);
+        const data = await response.json();
+        if (!response.ok) {
+            // const errorData = await response.text();
+            console.error("❌ Failed to initiate payment:", errorData);
+            alert("Failed to start payment. Please try again.");
+            return;
+        }
+
+        console.log("✅ eSewa initiation response:", data);
+        if (data && data.payment_url) {
+            window.location.href = data.payment_url;
+        } else {
+            console.error("❌ Invalid payment initiation response:", data);
+            alert("Failed to start payment. Please try again.");
+        }
+    } catch (error) {
+        console.error("💥 Error initiating eSewa payment:", error);
+        alert("Something went wrong while connecting to eSewa.");
+    }
 }
 
 async function deleteorderedItem(id) {

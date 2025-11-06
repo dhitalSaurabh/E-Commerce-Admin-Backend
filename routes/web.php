@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthAdminController;
 use App\Http\Controllers\EsewaController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -95,12 +96,29 @@ Route::get('/my-payments', function () {
 // Route::get('/proceed-to-payment', function () {
 //     return view('layouts.payment');
 // });
+Route::get('/esewa/payment', function (Request $request) {
+    return view('layouts.payment', [
+        'order_id' => $request->query('order_id'),
+        'amount' => $request->query('amount'),
+        'tax_amount' => $request->query('tax_amount'),
+        'total_amount' => $request->query('total_amount'),
+        'transaction_uuid' => $request->query('transaction_uuid'),
+        'product_code' => $request->query('product_code'),
+        'success_url' => $request->query('success_url'),
+        'failure_url' => $request->query('failure_url'),
+        'signature' => $request->query('signature'),
+    ]);
+})->name('esewa.paymentPage');
 Route::get('/proceed-to-payment', [EsewaController::class, 'initiate'])->name('esewa.initiate');
 Route::get('/esewa/success', [EsewaController::class, 'verify'])->name('esewa.verify');
 Route::get('/esewa/failure', [EsewaController::class, 'failure'])->name('esewa.failure');
 // Route::get('/payment-success', function () {
 //     return view('esewa.success');
 // });
+
+Route::get('/payment-failure', function () {
+    return view('esewa.failure');
+});
 
 //My Reset Password
 Route::get('/user/reset-password', function () {
