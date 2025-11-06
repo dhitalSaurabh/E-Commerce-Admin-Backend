@@ -11,11 +11,11 @@
 </head>
 
 <body class="padding-5px">
-    <div class="relative flex justify-end items-center gap-x-4 mb-9">
+    {{-- <div class="relative flex justify-end items-center gap-x-4 mb-9">
 
 
         <!-- Container for the top-right aligned icon and dropdown -->
-        {{-- <div class="relative w-full"> --}}
+       
             <div class="absolute top-4 right-4 relative">
                 <a id="profileIcon" onclick="toggleProfileDropdown()" href="javascript:void(0);"
                     class="text-blue-600 hover:text-black-800 text-2xl transition duration-300">
@@ -42,17 +42,93 @@
                 </div>
                 <button id="authBtn" onclick="handleAuthButton()"
                     class="w-full text-left px-6 py-2 text-sm text-white-600 bg-blue-500 hover:bg-gray-700">
-                    {{-- Login --}}
+                   
                 </button>
                 <!-- Sign In Button -->
                 {{-- <button id="signInBtn" onclick="handleAuthButton()"
                     class="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md text-sm">
                     Sign In
                 </button> --}}
-            </div>
+            <
+ --}}
+ <!-- ===== Beautiful E-Commerce Navbar ===== -->
+<nav class="bg-white shadow-md fixed w-full top-0 left-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16 items-center">
+      <!-- Logo -->
+      <div class="flex-shrink-0 flex items-center">
+        <a href="/" class="text-2xl font-bold text-blue-600 hover:text-gray-700">
+          <i class="fas fa-shopping-bag mr-2"></i>E-Shop
+        </a>
+      </div>
 
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex space-x-8 items-center">
+        <a href="/" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+        <a href="/shop" class="text-gray-700 hover:text-blue-600 font-medium">Shop</a>
+        <a href="/about" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
+        <a href="/contact" class="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+      </div>
+
+      <!-- Right Icons -->
+      <div class="flex items-center space-x-4">
+        <!-- Search Icon -->
+        <button class="text-gray-600 hover:text-blue-600 focus:outline-none">
+          <i class="fas fa-search text-lg"></i>
+        </button>
+
+        <!-- Cart Icon -->
+        <a href="/mycarts" class="relative text-gray-600 hover:text-blue-600">
+          <i class="fas fa-shopping-cart text-lg"></i>
+          <span id="cart-count"
+            class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-1.5 rounded-full">2</span>
+        </a>
+
+        <!-- User / Profile -->
+        <div class="relative">
+          <button id="navbarProfileIcon" onclick="toggleNavbarProfileDropdown()"
+            class="text-gray-600 hover:text-blue-600 focus:outline-none">
+            <i class="fas fa-user-circle text-2xl"></i>
+          </button>
+          <div id="navbarProfileDropdown"
+            class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+            <a href="/profile"
+              class="block px-4 py-2 text-gray-700 hover:bg-gray-100">My Profile</a>
+            <a href="/my-orders"
+              class="block px-4 py-2 text-gray-700 hover:bg-gray-100">My Orders</a>
+            <a href="/my-payments"
+              class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Payments</a>
+            <button onclick="userLogout()"
+              class="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100">Logout</button>
+          </div>
         </div>
 
+        <!-- Login Button (if not logged in) -->
+        <button id="navbarAuthBtn"
+          class="hidden bg-blue-500 hover:bg-blue-600 text-white px-4 py-1.5 rounded-md text-sm font-semibold"
+          onclick="redirectToLogin()">
+          Login
+        </button>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobileMenuButton" class="md:hidden text-gray-600 hover:text-blue-600 focus:outline-none">
+          <i class="fas fa-bars text-2xl"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-200">
+    <a href="/" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Home</a>
+    <a href="/shop" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Shop</a>
+    <a href="/about" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">About</a>
+    <a href="/contact" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Contact</a>
+  </div>
+</nav>
+
+<!-- Add padding to page content (since navbar is fixed) -->
+<div class="pt-20"></div>
 
         <div class="p-6 max-w-7xl mx-auto">
             {{-- <h2>User Dash</h2> --}}

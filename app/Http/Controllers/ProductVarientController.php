@@ -33,7 +33,7 @@ class ProductVarientController extends Controller
             'material' => 'nullable|string|max:100',
             'price' => 'nullable|numeric',
             'sku' => 'nullable|string|max:100|unique:product_varients,sku',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:21048'
         ]);
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('variant_images', 'public');

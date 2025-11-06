@@ -31,7 +31,7 @@ class ProductController extends Controller
             'brand' => 'nullable|string|max:100',
             'sku' => 'nullable|string|max:100|unique:products,sku',
             'category_id' => 'required|exists:categories,id',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,avif|max:21048',
         ]);
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('product_images', 'public');
