@@ -65,18 +65,17 @@ async function loadProducts() {
                 </ul>
 
                 <div class="mt-3 flex gap-2 opacity-0 transition-opacity duration-300">
-                    <button
-                        class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition-all duration-300 transform "
-                        onclick="openOrderDialog(${id})"
-                    >Order Now</button>
-
-                    <a href="/variants/${id}"><button
-                        class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition-all duration-300 transform"
-                        
-                    >Check Variants</button></a>
+                <button type="button" onclick="openOrderDialog(${id})"  class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                Order Now
+                </button>
+                    <a href="/variants/${id}">
+                   <button type="button" class="px-2 py-1 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-pink-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-pink-800 shadow-lg shadow-purple-800/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Varients</button>
+                    </a>
                 </div>
             `;
-
+            //<button
+              //          class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition-all duration-300 transform"      
+                //    >Check Variants</button>
             // Append card to container
             container.appendChild(card);
 

@@ -102,7 +102,7 @@
         });
     </script> --}}
 
-    <h1>E-Sewa Payment </h1>
+    {{-- <h1>E-Sewa Payment </h1> --}}
 
     <p><strong>Amount:</strong> Rs. {{ $amount }}</p>
     <p><strong>Tax:</strong> Rs. {{ $tax_amount }}</p>
@@ -133,6 +133,72 @@
             Pay with eSewa
         </button>
     </form>
+    <div class="20px"></div>
+    <button type="button" onclick="postPayment({{ $amount }}, {{ $order_id }}, '{{ $transaction_uuid }}')"
+        style="background-color: #591ba5; color: white; margin-top:20px; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+        Cash on Delivery
+    </button>
+
+
+    {{--
+    <script>
+        //  Post Payments
+        async function postPayment(amount, order_id, transaction_uuid) {
+            // Post Products 
+
+            const form = document.getElementById('productsForm');
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (!form) return;
+
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const formData = new FormData(form);
+                // console.log(formData);
+                // const name = document.getElementById('name').value;
+                // const slug = document.getElementById('slug').value;
+                // const description = document.getElementById('description').value;
+                // const price = document.getElementById('price').value;
+                // const image = document.getElementById('image').value;
+                try {
+                    const auth_token = localStorage.getItem('auth_token');
+                    // const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                    const response = await fetch("http://127.0.0.1:8000/api/admin/products", {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            // "X-CSRF-TOKEN": token,
+                            "Authorization": `Bearer ${auth_token}`,
+                        },
+                        credentials: 'include',
+                        // body: JSON.stringify({ name, slug, description, price, image })
+                        body: formData,
+                    });
+                    console.log("Response received");
+                    const responseData = await response.json();
+
+                    if (!response.ok) {
+                        errorMessage.textContent = responseData.message || 'Error submitting form.';
+                        console.error('Validation Errors:', responseData.errors);
+                    } else {
+                        alert('Product added Successfully');
+                        form.reset();
+                        errorMessage.textContent = '';
+                        window.location.reload();
+                    }
+
+                } catch (err) {
+                    console.error(err);
+                    errorMessage.textContent = 'An unexpected error occurred.';
+                }
+            });
+
+        }
+    </script> --}}
+
+    <script src="{{ asset('js/user-api/payments-api.js')}}"></script>
+
 </body>
 
 </html>
